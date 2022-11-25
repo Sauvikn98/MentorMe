@@ -1,1 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 
+
+:root {
+  --blue: #14a7fc;
+  --blue-dark: #0078c8;
+  --blue-light: #6cd8ff;
+  --gray0: #f8f8f8;
+  --gray1: #dbe1e8;
+  --gray2: #b2becd;
+  --gray3: #6c7983;
+  --gray4: #454e56;
+  --gray5: #2a2e35;
+  --gray6: #12181b;
+  --nav-height: 4em;
+  --font: "Nunito Sans", sans-serif;
+  --font-size: 20px;
+  --card-radius: 0.25rem;
+  --transition: all 0.3s ease-in;
+  --text-color: var(--gray5);
+  --h-color: var(--gray6);
+  --nav-shadow: 4px 0 10px -3px #c1c1c1;
+  --card-shadow: 0 4px 8px rgba(0, 30, 84, 0.12);
+  --card-bg: #fff;
+  --h-border: 2px dashed var(--gray1);
+  --card-border: 1px solid var(--gray1);
+  --primary: var(--blue);
+  --primary-light: var(--blue-light);
+  --primary-dark: var(--blue-dark);
+  --gradient-bg: linear-gradient(97deg, var(--blue) 0%, var(--blue-light) 100%);
+}
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+}
+
+.landing{
+  overflow: hidden;
+}
+
+.landing, .create-profile {
+  background-image: url("./assets/mesh.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media screen and (max-width: 568px) {
+  :root {
+    --font-size: 16px;
+    --nav-height: 3em;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  :root {
+    --font-size: 24px;
+    --nav-height: 4.5em;
+  }
+}
