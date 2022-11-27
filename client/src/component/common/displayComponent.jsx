@@ -61,7 +61,7 @@ export const renderButton = ({ label, variant, color, onClick }) => (
 );
 
 export const renderStepper= ({ state }) => (
-  <Stepper activeStep={state.stepCount} alternativeLabel>
+  <Stepper activeStep={state.stepCount - 1} alternativeLabel>
             {state.steps.map((item,i) => (
               <Step key={i}>
                 <StepLabel>{item.label}</StepLabel>
