@@ -1,4 +1,6 @@
-import { Button, MenuItem, TextField, Typography } from "@mui/material";
+import { Button, MenuItem, TextField, Typography, Stepper,
+  Step,
+  StepLabel, } from "@mui/material";
 
 export const renderText = ({ type, label, color, ...rest }) => (
   <Typography variant={type} color={color} {...rest}>
@@ -56,4 +58,14 @@ export const renderButton = ({ label, variant, color, onClick }) => (
     onClick={onClick}>
     {label}
   </Button>
+);
+
+export const renderStepper= ({ state }) => (
+  <Stepper activeStep={state.stepCount} alternativeLabel>
+            {state.steps.map((item,i) => (
+              <Step key={i}>
+                <StepLabel>{item.label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
 );

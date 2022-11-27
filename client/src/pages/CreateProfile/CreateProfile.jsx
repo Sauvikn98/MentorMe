@@ -11,6 +11,7 @@ import Step1 from "../../component/Steps/step1";
 import Step2 from "../../component/Steps/step2";
 import Step3 from "../../component/Steps/step3";
 import FinalStep from "../../component/Steps/FinalStep";
+import Step0 from "../../component/Steps/step0";
 
 class CreateProfile extends Component {
   state = {
@@ -73,13 +74,19 @@ class CreateProfile extends Component {
       switch (step) {
         case 0:
           return (
+            <Step0 
+            handleNext = {handleNextStep} 
+            />
+          );
+        case 1:
+          return (
             <Step1
             state={this.state}
             handleChange={handleOnChange}
             handleNext = {handleNextStep}
             />
           );
-        case 1:
+        case 2:
           return (
             <Step2
               state={this.state}
@@ -88,7 +95,7 @@ class CreateProfile extends Component {
               handlePrev={handleBackStep}
             />
           );
-        case 2:
+        case 3:
           return (
             <Step3
               state={this.state}
@@ -98,8 +105,8 @@ class CreateProfile extends Component {
               handleSubmit={handleSubmit}
             />
           );
-        case 3:
-          return <FinalStep data={this.state.data} />;
+        case 4:
+          return <FinalStep data={this.state.data} state={this.state} />;
         default:
           return (
             <Step1
@@ -117,19 +124,13 @@ class CreateProfile extends Component {
       justifyContent: "center",
       alignItems: "center",
       height: "100vh", backgroundImage: `var(--gradient-bg)`}}>
-        <Grid item xs={12} sm={7}>
-          <form onSubmit={this.handleSubmit} style={{padding: "10px",
-    minHeight: "350px",
-    height: "auto",}}>
-            <Paper component={Box} mb={1} pt={6}>
+        <Grid item xs={12} sm={8}>
+          <form onSubmit={this.handleSubmit} style={{
+            padding: "20px",
+            height: "auto",
+  }}>
+            <Paper  mb={1} pt={6}>
               
-              <Stepper activeStep={this.state.stepCount} alternativeLabel>
-                {this.state.steps.map((item,i) => (
-                  <Step key={i}>
-                    <StepLabel>{item.label}</StepLabel>
-                  </Step>
-                ))}
-              </Stepper>
               {getStepContent(this.state.stepCount)}
             </Paper>
            

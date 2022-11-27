@@ -4,12 +4,14 @@ import {
   renderButton,
   renderInputField,
   renderSelect,
+  renderStepper,
   renderText,
 } from "../common/displayComponent";
 
 const Step1 = ({ state, handleChange, handleNext }) => {
   return (
     <Box style={{padding: "16px",}}>
+       {renderStepper({state})}
       <Box mt={2} mb={2}>
         {renderText({
           label: "Please Fill personal Data",
@@ -17,6 +19,7 @@ const Step1 = ({ state, handleChange, handleNext }) => {
           color: "textPrimary",
           align: "center",
         })}
+       
       </Box>
 
       <Grid container spacing={1} style={{ marginBottom: "16px" }}>

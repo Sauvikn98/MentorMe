@@ -5,6 +5,7 @@ import {
   renderInputField,
   renderSelect,
   renderText,
+  renderStepper
 } from "../common/displayComponent";
 
 const Step3 = ({
@@ -16,6 +17,7 @@ const Step3 = ({
 }) => {
   return (
     <Box style={{padding: "16px",}}>
+      {renderStepper({state})}
       <Box mt={2} mb={2}>
         {renderText({
           label: "Professional Details",

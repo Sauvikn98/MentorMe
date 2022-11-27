@@ -1,10 +1,11 @@
 import React from "react";
 import { Box} from "@mui/material";
-import { renderText } from "../common/displayComponent";
+import { renderText, renderStepper } from "../common/displayComponent";
 
-const FinalStep = ({ data }) => {
+const FinalStep = ({ data, state}) => {
   return (
     <Box style={{padding: "16px",}}>
+      {renderStepper({state})}
       <Box mt={2} mb={2}>
         {renderText({
           label: "Your Submitted Data",
