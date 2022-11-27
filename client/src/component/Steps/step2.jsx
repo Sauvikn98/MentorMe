@@ -10,9 +10,9 @@ import {
 
 const Step2 = ({ state, handleChange, handleNext, handlePrev }) => {
   return (
-    <Box style={{padding: "16px"}}>
+    <Box style={{padding: "16px", paddingTop:"60px", paddingBottom:"60px"}}>
       {renderStepper({state})}
-      <Box mt={2} mb={2}>
+      <Box mt={2} mb={2} pt={6} pb={6}>
         {renderText({
           label: "A Bit About Education",
           type: "h6",
@@ -40,8 +40,8 @@ const Step2 = ({ state, handleChange, handleNext, handlePrev }) => {
         <Grid item xs={12} sm={6}>
           {renderInputField({
             state,
-            name: "issuedBy",
-            label: "Issued By College name",
+            name: "College Name",
+            label: "College Name",
             onChange: handleChange,
           })}
         </Grid>
@@ -51,21 +51,21 @@ const Step2 = ({ state, handleChange, handleNext, handlePrev }) => {
         <Grid item xs={12} sm={6}>
           {renderInputField({
             state,
-            name: "yearOfPassing",
-            label: "Passing Year",
+            name: "Year of Passing",
+            label: "Year of Passing",
             onChange: handleChange,
           })}
         </Grid>
         <Grid item xs={12} sm={6}>
           {renderSelect({
             state,
-            name: "jobApplyFor",
-            label: "JobApplyFor",
+            name: "Current Job",
+            label: "Current Job",
             options: [
               { key: "Manager", value: "Manager" },
               { key: "Project Designer", value: "Project Designer" },
-              { key: "Clerk", value: "Clerk" },
-              { key: "Helper", value: "Helper" },
+              { key: "Software Engineer", value: "Software Engineer" },
+              { key: "Graphic Designer", value: "Graphic Designer" },
             ],
             onChange: handleChange,
           })}

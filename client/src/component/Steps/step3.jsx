@@ -16,9 +16,9 @@ const Step3 = ({
   handleSubmit,
 }) => {
   return (
-    <Box style={{padding: "16px",}}>
+    <Box style={{padding: "16px", paddingTop:"60px", paddingBottom:"60px"}}>
       {renderStepper({state})}
-      <Box mt={2} mb={2}>
+      <Box mt={2} mb={2} pt={6} pb={6}>
         {renderText({
           label: "Professional Details",
           type: "h6",
@@ -26,10 +26,6 @@ const Step3 = ({
           align: "center",
         })}
       </Box>
-      {/* skill: "",
-      workExperence: "",
-      expectedSalary: "", */}
-
       <Grid container spacing={1} style={{ marginBottom: "16px" }}>
         <Grid item xs={12} sm={6}>
           {renderSelect({
@@ -62,14 +58,15 @@ const Step3 = ({
 
       <Grid container spacing={1} style={{ marginBottom: "16px" }}>
         <Grid item xs={12} sm={6}>
-          {renderSelect({
+        {renderSelect({
             state,
-            name: "jobType",
-            label: "Choose Work Type",
+            name: "Current Job",
+            label: "Current Job",
             options: [
-              { key: "Marketting", value: "Marketting" },
-              { key: "Official Work", value: "Official Work" },
-              { key: "Work from home", value: "Work from home" },
+              { key: "Manager", value: "Manager" },
+              { key: "Project Designer", value: "Project Designer" },
+              { key: "Software Engineer", value: "Software Engineer" },
+              { key: "Graphic Designer", value: "Graphic Designer" },
             ],
             onChange: handleChange,
           })}
@@ -77,8 +74,8 @@ const Step3 = ({
         <Grid item xs={12} sm={6}>
           {renderInputField({
             state,
-            name: "expectedSalary",
-            label: " Expected Salaty",
+            name: "Job Location",
+            label: " Job Location ",
             onChange: handleChange,
           })}
         </Grid>

@@ -10,11 +10,11 @@ import {
 
 const Step1 = ({ state, handleChange, handleNext }) => {
   return (
-    <Box style={{padding: "16px",}}>
+    <Box style={{padding: "16px", paddingTop:"60px", paddingBottom:"60px"}}>
        {renderStepper({state})}
-      <Box mt={2} mb={2}>
+      <Box mt={2} mb={2} pt={6} pb={6}>
         {renderText({
-          label: "Please Fill personal Data",
+          label: "Please Fill in Personal Data",
           type: "h6",
           color: "textPrimary",
           align: "center",
