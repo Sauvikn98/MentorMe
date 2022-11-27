@@ -8,24 +8,24 @@ import {
   renderStepper
 } from "../common/displayComponent";
 
-const Step2 = ({ state, handleChange, handleNext, handlePrev }) => {
+const EducationalInfo = ({ state, handleChange, handleNext, handlePrev }) => {
   return (
-    <Box style={{padding: "16px", paddingTop:"60px", paddingBottom:"60px"}}>
+    <Box style={{paddingLeft: "40px", paddingTop:"60px", paddingBottom:"60px", paddingRight:"40px"}}>
       {renderStepper({state})}
       <Box mt={2} mb={2} pt={6} pb={6}>
         {renderText({
-          label: "A Bit About Education",
+          label: "A Bit About Your Education",
           type: "h6",
           color: "textPrimary",
           align: "center",
         })}
       </Box>
 
-      <Grid container spacing={1} style={{ marginBottom: "16px" }}>
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
+        <Grid item xs={12}>
           {renderSelect({
             state,
-            name: "highestDegree",
+            name: "qualificationDegree",
             label: "Qualification Degree",
             options: [
               { key: "graduation", value: "Graduation" },
@@ -37,42 +37,39 @@ const Step2 = ({ state, handleChange, handleNext, handlePrev }) => {
             onChange: handleChange,
           })}
         </Grid>
-        <Grid item xs={12} sm={6}>
+      </Grid>
+
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
+        <Grid item xs={12}>
           {renderInputField({
             state,
-            name: "College Name",
+            name: "collegeName",
             label: "College Name",
             onChange: handleChange,
           })}
         </Grid>
       </Grid>
 
-      <Grid container spacing={1} style={{ marginBottom: "16px" }}>
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
         <Grid item xs={12} sm={6}>
           {renderInputField({
             state,
-            name: "Year of Passing",
+            name: "yearOfPassing",
             label: "Year of Passing",
             onChange: handleChange,
           })}
         </Grid>
         <Grid item xs={12} sm={6}>
-          {renderSelect({
+        {renderInputField({
             state,
-            name: "Current Job",
-            label: "Current Job",
-            options: [
-              { key: "Manager", value: "Manager" },
-              { key: "Project Designer", value: "Project Designer" },
-              { key: "Software Engineer", value: "Software Engineer" },
-              { key: "Graphic Designer", value: "Graphic Designer" },
-            ],
+            name: "branch",
+            label: "Branch",
             onChange: handleChange,
           })}
         </Grid>
       </Grid>
 
-      <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
+      <Grid container component={Box} justifyContent='flex-end' mt={3}>
         <Box ml={2}>
           {renderButton({
             label: "Back",
@@ -86,4 +83,4 @@ const Step2 = ({ state, handleChange, handleNext, handlePrev }) => {
   );
 };
 
-export default Step2;
+export default EducationalInfo;
