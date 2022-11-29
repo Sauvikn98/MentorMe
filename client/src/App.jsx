@@ -7,6 +7,10 @@ import CreateProfile from "./pages/CreateProfile/CreateProfile";
 const theme = createTheme({
   typography: {
     fontFamily: "Nunito Sans",
+
+    button: {
+      textTransform: "none",
+    },
   },
   palette: {
     primary: {
@@ -42,7 +46,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />}></Route>
-          <Route exact path="/home" element={<Home />} />
+          <Route exact path="/community" element={<Home />} />
           <Route exact path="/create-profile" element={<CreateProfile />} />
         </Routes>
       </BrowserRouter>
