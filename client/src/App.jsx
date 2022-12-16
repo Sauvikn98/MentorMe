@@ -3,10 +3,15 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Landing from "./pages/Landing/Landing";
 import Home from "./pages/Home/Home";
 import CreateProfile from "./pages/CreateProfile/CreateProfile";
+import Mentors from "./pages/Mentors/Mentors";
 
 const theme = createTheme({
   typography: {
     fontFamily: "Nunito Sans",
+
+    button: {
+      textTransform: "none",
+    },
   },
   palette: {
     primary: {
@@ -42,8 +47,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />}></Route>
-          <Route exact path="/home" element={<Home />} />
           <Route exact path="/create-profile" element={<CreateProfile />} />
+          <Route exact path="/community" element={<Home />} />
+          <Route exact path="/mentors" element={<Mentors />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

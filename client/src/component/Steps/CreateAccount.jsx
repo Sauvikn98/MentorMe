@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import { Grid, Divider, Typography, Box } from '@mui/material';
 import { renderButton, renderText } from '../common/displayComponent';
@@ -21,9 +20,16 @@ export default function CreateAccount({ handleNext }) {
 
     return (
         <Grid>
-
-            <Grid item container style={{ height: "60vh", display: "flex", alignItems: "center", justifyContent: "center", display: "flex" }}>
-
+            <Box pt={6}>
+        {renderText({
+          label: "REGISTRATION FORM",
+          type: "h5",
+          color: "textPrimary",
+          align: "center",
+        })}
+       
+      </Box>
+            <Grid item container style={{ height: "60vh", display: "flex", alignItems: "center", justifyContent: "center"}}>
                 <Grid item xs={5}>
                     <Typography variant="body2" align="center">
                         {content1}
