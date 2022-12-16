@@ -7,13 +7,13 @@ import {
   renderText,
 } from "../common/displayComponent";
 
-const Step1 = ({ state, handleChange, handleNext }) => {
+const PersonalInfo = ({ state, handleChange, handleNext, handlePrev }) => {
   return (
-    <Box style={{padding: "16px", paddingTop:"60px", paddingBottom:"60px"}}>
+    <Box style={{paddingLeft: "40px", paddingTop:"60px", paddingBottom:"60px", paddingRight:"40px"}}>
        {renderStepper({state})}
-      <Box mt={2} mb={2} pt={6} pb={6}>
+      <Box pt={6} pb={6}>
         {renderText({
-          label: "Please Fill in Personal Data",
+          label: "Personal Details",
           type: "h6",
           color: "textPrimary",
           align: "center",
@@ -21,25 +21,25 @@ const Step1 = ({ state, handleChange, handleNext }) => {
        
       </Box>
 
-      <Grid container spacing={1} style={{ marginBottom: "16px" }}>
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
         <Grid item xs={12} sm={6}>
           {renderInputField({
             state,
-            name: "firstName",
-            label: "First Name",
+            name: "nickName",
+            label: "Nick Name",
             onChange: handleChange,
           })}
         </Grid>
         <Grid item xs={12} sm={6}>
           {renderInputField({
             state,
-            name: "lastName",
-            label: "Last Name",
+            name: "familyName",
+            label: "Family Name",
             onChange: handleChange,
           })}
         </Grid>
       </Grid>
-      <Grid container spacing={1} style={{ marginBottom: "16px" }}>
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
         <Grid item xs={12}>
           {renderSelect({
             state,
@@ -53,8 +53,8 @@ const Step1 = ({ state, handleChange, handleNext }) => {
           })}
         </Grid>
       </Grid>
-      <Grid container spacing={1} style={{ marginBottom: "16px" }}>
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
+        <Grid item xs={12}>
           {renderInputField({
             state,
             name: "phone",
@@ -62,22 +62,32 @@ const Step1 = ({ state, handleChange, handleNext }) => {
             onChange: handleChange,
           })}
         </Grid>
-        <Grid item xs={12} sm={6}>
+      </Grid>
+
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
+        <Grid item xs={12}>
           {renderInputField({
             state,
-            name: "email",
-            label: "Email",
-            type: "email",
+            name: "address",
+            label: "Address",
+            type: "address",
             onChange: handleChange,
           })}
         </Grid>
       </Grid>
 
-      <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
-        {renderButton({ label: "Next", onClick: handleNext })}
+      <Grid container component={Box} justifyContent='flex-end' mt={3}>
+      <Box ml={2}>
+          {renderButton({
+            label: "Back",
+            color: "default",
+            onClick: handlePrev,
+          })}
+        </Box>
+        <Box ml={2}>{renderButton({ label: "Next", onClick: handleNext })}</Box>
       </Grid>
     </Box>
   );
 };
 
-export default Step1;
+export default PersonalInfo;

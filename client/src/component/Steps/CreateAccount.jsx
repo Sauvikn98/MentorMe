@@ -4,7 +4,7 @@ import { renderButton, renderText } from '../common/displayComponent';
 
 
 
-export default function Step0({ handleNext }) {
+export default function CreateAccount({ handleNext }) {
     const content1 = (
         <div>
             {renderButton({ label: 'Create Account as Mentor', onClick: handleNext })}
@@ -30,14 +30,13 @@ export default function Step0({ handleNext }) {
        
       </Box>
             <Grid item container style={{ height: "60vh", display: "flex", alignItems: "center", justifyContent: "center"}}>
-            
                 <Grid item xs={5}>
                     <Typography variant="body2" align="center">
                         {content1}
                     </Typography>
                 </Grid>
 
-                <Divider orientation="vertical" style={{ height: "50%" }}>
+                <Divider orientation="vertical" style={{ height: "60%" }}>
                     OR
                 </Divider>
                 <Grid item xs={5}>
@@ -46,6 +45,14 @@ export default function Step0({ handleNext }) {
                     </Typography>
                 </Grid>
             </Grid>
+            <Box pb={6}>
+                {renderText({
+                    label: "Already have an Account? Login",
+
+                    align: "center",
+                })}
+
+            </Box>
         </Grid>
 
     );

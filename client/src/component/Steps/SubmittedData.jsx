@@ -2,9 +2,9 @@ import React from "react";
 import { Box} from "@mui/material";
 import { renderText, renderStepper } from "../common/displayComponent";
 
-const FinalStep = ({ data, state}) => {
+const SubmittedData = ({ data, state}) => {
   return (
-    <Box style={{padding: "16px", paddingTop:"60px", paddingBottom:"60px"}}>
+    <Box style={{paddingLeft: "40px", paddingTop:"60px", paddingBottom:"60px", paddingRight:"40px"}}>
       {renderStepper({state})}
       <Box mt={2} mb={2} pt={6} >
         {renderText({
@@ -20,4 +20,4 @@ const FinalStep = ({ data, state}) => {
   );
 };
 
-export default FinalStep;
+export default SubmittedData;

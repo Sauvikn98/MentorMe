@@ -7,7 +7,7 @@ import {
   renderStepper
 } from "../common/displayComponent";
 
-const Step3 = ({
+const ProfessionalInfo = ({
   state,
   handleChange,
   handleNext,
@@ -15,7 +15,7 @@ const Step3 = ({
   handleSubmit,
 }) => {
   return (
-    <Box style={{padding: "16px", paddingTop:"60px", paddingBottom:"60px"}}>
+    <Box style={{paddingLeft: "40px", paddingTop:"60px", paddingBottom:"60px", paddingRight:"40px"}}>
       {renderStepper({state})}
       <Box mt={2} mb={2} pt={6} pb={6}>
         {renderText({
@@ -25,7 +25,7 @@ const Step3 = ({
           align: "center",
         })}
       </Box>
-      <Grid container spacing={1} style={{ marginBottom: "16px" }}>
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
         <Grid item xs={12} sm={6}>
           {renderSelect({
             state,
@@ -55,11 +55,11 @@ const Step3 = ({
         </Grid>
       </Grid>
 
-      <Grid container spacing={1} style={{ marginBottom: "16px" }}>
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
         <Grid item xs={12} sm={6}>
         {renderSelect({
             state,
-            name: "Current Job",
+            name: "currentJob",
             label: "Current Job",
             options: [
               { key: "Manager", value: "Manager" },
@@ -73,14 +73,14 @@ const Step3 = ({
         <Grid item xs={12} sm={6}>
           {renderInputField({
             state,
-            name: "Job Location",
+            name: "jobLocation",
             label: " Job Location ",
             onChange: handleChange,
           })}
         </Grid>
       </Grid>
 
-      <Grid container component={Box} justifyContent='flex-end' mt={2} p={2}>
+      <Grid container component={Box} justifyContent='flex-end' mt={3}>
         <Box ml={2}>
           {renderButton({
             label: "Back",
@@ -96,4 +96,4 @@ const Step3 = ({
   );
 };
 
-export default Step3;
+export default ProfessionalInfo;

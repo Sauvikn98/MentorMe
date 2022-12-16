@@ -1,39 +1,43 @@
 import React, { Component } from "react";
 import {
-  Box,
   Grid,
   Paper,
-  Stepper,
-  Step,
-  StepLabel,
 } from "@mui/material";
-import Step1 from "../../component/Steps/step1";
-import Step2 from "../../component/Steps/step2";
-import Step3 from "../../component/Steps/step3";
-import FinalStep from "../../component/Steps/FinalStep";
-import Step0 from "../../component/Steps/step0";
+import CreateAccount from "../../component/Steps/CreateAccount";
+import PersonalInfo from "../../component/Steps/PersonalInfo";
+import EducationalInfo from "../../component/Steps/EducationalInfo";
+import ProfessionalInfo from "../../component/Steps/ProfessionalInfo";
+import SubmittedData from "../../component/Steps/SubmittedData";
+import EmailAndPassword from "../../component/Steps/EmailAndPassword";
+
 
 class CreateProfile extends Component {
   state = {
     data: {
       firstName: "",
       lastName: "",
+      email: "",
+      password: "",
+      
+      nickName: "",
+      familyName: "",
       gender: "",
       phone: "",
-      email: "",
+      address: "",
 
-      highestDegree: "",
-      issuedBy: "",
+      qualificationDegree: "",
+      collegeName: "",
       yearOfPassing: "",
-      jobType: "",
+      branch: "",
 
       skill: "",
-      jobApplyFor: "",
       workExperence: "",
-      expectedSalary: "",
+      currentJob: "",
+      jobLocation: "",
     },
     errors: {},
     steps: [
+      { label: "Email and Password" },
       { label: "Personal Bio" },
       { label: "Educational" },
       { label: "Professional" },
@@ -51,7 +55,7 @@ class CreateProfile extends Component {
       const { data, errors } = this.state;
 
       target.value.length <= 3
-        ? (errors[target.name] = `${target.name} have at least 3 letter`)
+        ? (errors[target.name] = `${target.name} must have at least 4 letter`)
         : (errors[target.name] = "");
 
       data[target.name] = target.value;
@@ -74,30 +78,40 @@ class CreateProfile extends Component {
       switch (step) {
         case 0:
           return (
-            <Step0 
-            handleNext = {handleNextStep} 
-            />
+            <CreateAccount
+            handleNext={handleNextStep}
+          />
           );
         case 1:
           return (
-            <Step1
+            <EmailAndPassword
             state={this.state}
             handleChange={handleOnChange}
             handleNext = {handleNextStep}
+            handlePrev={handleBackStep}
             />
           );
         case 2:
           return (
-            <Step2
+            <PersonalInfo
+            state={this.state}
+            handleChange={handleOnChange}
+            handleNext = {handleNextStep}
+            handlePrev={handleBackStep}
+            />
+          );
+        case 3:
+          return (
+            <EducationalInfo
               state={this.state}
               handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
             />
           );
-        case 3:
+        case 4:
           return (
-            <Step3
+            <ProfessionalInfo
               state={this.state}
               handleChange={handleOnChange}
               handleNext={handleNextStep}
@@ -105,11 +119,11 @@ class CreateProfile extends Component {
               handleSubmit={handleSubmit}
             />
           );
-        case 4:
-          return <FinalStep data={this.state.data} state={this.state} />;
+        case 5:
+          return <SubmittedData data={this.state.data} state={this.state} />;
         default:
           return (
-            <Step1
+            <CreateAccount
               state={this.state}
               handleChange={handleOnChange}
               handleNext={handleNextStep}
@@ -117,7 +131,6 @@ class CreateProfile extends Component {
           );
       }
     };
-
     return (
       <Grid container style={{display: "flex",
       flexFlow: "row Wrap",
@@ -125,17 +138,16 @@ class CreateProfile extends Component {
       alignItems: "center",
       height: "100vh", backgroundImage: `var(--gradient-bg)`}}>
         <Grid item xs={12} sm={8}>
-          <form onSubmit={this.handleSubmit} style={{
-            padding: "20px",
+          <form onSubmit={this.handleSubmit}
+            style={{
+            paddingLeft: "20px",
+            paddingRight: "20px",
+            marginTop:"20px",
             height: "auto",
-  }}>
+            }}>
             <Paper  mb={1} pt={6}>
-              
-              {getStepContent(this.state.stepCount)}
+            {getStepContent(this.state.stepCount)}
             </Paper>
-           
-             
-      
           </form>
         </Grid>
       </Grid>
