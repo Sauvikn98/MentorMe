@@ -1,16 +1,16 @@
-import {
-  Card,
-  CardMedia,
-  Avatar,
-  CardActionArea,
-  CardContent,
-  Typography,
-  Box
-} from "@mui/material";
+import React from 'react'
+import {Card,
+    CardMedia,
+    Avatar,
+    CardActionArea,
+    CardContent,
+    Typography,
+    Box,
+    Button} from '@mui/material'
 
-function ProfileCard() {
+function MentorProfileCard() {
   return (
-    <Card sx={{ maxWidth: '20vw'}}>
+    <Card>
       
         <Box sx={{display:'flex',
             justifyContent:'center',
@@ -33,15 +33,16 @@ function ProfileCard() {
             Dhanmoni Nath
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Software Developer at Google Lorem ips dolor, sit amet consectetur adipisicing elit.
+            Software Developer at Google
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            My Mentees: 250 
+            Mentees: 250 
           </Typography>
+          <Button>Send Request</Button>
         </CardContent>
       
     </Card>
-  );
+  )
 }
 
-export default ProfileCard;
+export default MentorProfileCard

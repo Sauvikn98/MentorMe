@@ -1,13 +1,28 @@
-import { Typography } from '@mui/material'
+import { Typography, Box } from '@mui/material'
 import React from 'react'
+import Feed from '../../component/Feed/Feed'
+import NotificationCard from '../../component/Notification/NotificationCard'
+import PostCard from '../../component/Posts/PostCard'
+import ProfileCard from '../../component/Profile/ProfileCard'
 import Layout from '../../layout/Layout'
+
 
 function Home() {
   return (
     <Layout>
-      <Typography variant="h3">
-        Hello Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet veniam voluptates, doloremque perspiciatis quae repellat omnis distinctio minima eos mollitia sit excepturi amet officiis quisquam dicta est velit repudiandae dolor?
-      </Typography>
+      <Box sx={{
+        display:'flex',
+        flexDirection:'row',
+        alignItems:'start',
+        justifyContent: 'space-around',
+        width: "80vw",
+        margin: '2rem auto'
+      }}>
+
+      <ProfileCard/>
+      <Feed/>
+      <NotificationCard/>
+      </Box>
     </Layout>
   )
 }
