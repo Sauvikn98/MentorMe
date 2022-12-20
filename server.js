@@ -1,12 +1,13 @@
-const express = require('express');
+const express = require("express");
+const compression= require("compression");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+require("dotenv").config();
+require("./db/mongoose");
+const UserRoutes = require("./routes/userRoutes");
 
-const mongoose = require('mongoose');
 
-const bodyParser = require('body-parser');
 
-const cors = require('cors');
-
-require('dotenv').config();
 
 const app = express();
 
@@ -19,27 +20,15 @@ app.use(bodyParser.json());
 // setting up cors, headers
 
 app.use(cors());
+app.use(compression());
+
+
+app.use(UserRoutes);
 
 // port
 
 const port = process.env.PORT || 5000;
 
-//connect to MongoDB
-
-mongoose.connect(process.env.MONGODB_ATLAS_URI,
-
-err => {
-
-if(err) throw err;
-
-console.log('connected to MongoDB')
-
-}
-
-);
-
 app.listen(port, () => {
-
-console.log(`Server started on port ${port}`);
-
+  console.log(`Server started on port ${port}`);
 });
