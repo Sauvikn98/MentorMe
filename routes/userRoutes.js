@@ -1,7 +1,7 @@
 const express = require("express");
 const UserRoutes = new express.Router();
 const auth = require("../middleware/auth");
-
+const {upload} = require('../cloudinary/cloudinary')
 
 const {
   getCurrentUser,
@@ -11,6 +11,14 @@ const {
   createMentor,
   loginUser
 } = require("../controller/UserController");
+
+const {
+  addProfileImage,
+  addEducation,
+  addExperience,
+  deleteEducation,
+  deleteExperience
+} = require('../controller/UserProfileController')
 
 
 UserRoutes.post("/user/register/mentor", createMentor);
@@ -25,6 +33,19 @@ UserRoutes.get("/user/:id", auth, getUserById);
 
 UserRoutes.get("/user/search/:name", auth, getUserByName);
 
+// routes for user profile---
+
+UserRoutes.post('/user/profile/addProfileImage', auth, upload.single("profileImage"), addProfileImage)
+
+// TO BE DONE - 
+
+UserRoutes.post('/user/profile/addEducation', auth, addEducation)
+
+UserRoutes.post('/user/profile/addExperience', auth, addExperience)
+
+UserRoutes.post('/user/profile/deleteEducation', auth, deleteEducation)
+
+UserRoutes.post('/user/profile/deleteExperience', auth, deleteExperience)
 
 // UserRoutes.patch("/user/:id", async (req, res) => {
 //   const updates = Object.keys(req.body);

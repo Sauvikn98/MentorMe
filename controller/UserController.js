@@ -1,6 +1,6 @@
 const { User, Mentee, Mentor } = require("../modals/mongoose-model");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 exports.createMentor = async (req, res) => {
   const { email, password, name } = req.body;
@@ -19,9 +19,7 @@ exports.createMentor = async (req, res) => {
       account_type: "mentor",
     });
     const salt = await bcrypt.genSalt(10);
-
     user.password = await bcrypt.hash(password, salt);
-
     await user.save();
 
     const payload = {
@@ -44,7 +42,6 @@ exports.createMentor = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
-
 
 exports.createMentee = async (req, res) => {
   const { email, password, name } = req.body;
@@ -63,9 +60,7 @@ exports.createMentee = async (req, res) => {
       account_type: "mentee",
     });
     const salt = await bcrypt.genSalt(10);
-
     user.password = await bcrypt.hash(password, salt);
-
     await user.save();
 
     const payload = {
@@ -88,7 +83,6 @@ exports.createMentee = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
-
 
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
@@ -124,19 +118,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// exports.userLogout = async (req, res) => {
-//   try {
-//     req.user.tokens = req.user.tokens.filter((tokens) => {
-//       return tokens.token != req.token;
-//     });
-//     await req.user.save();
-//     return res.status(200).send({success: "User logged out successfully"});
-//   } catch (e) {
-//     return res.status(400).send({error: "Some error occured during the operation "});
-//   }
-// };
-
-
 exports.getCurrentUser = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.user.id }).select(
@@ -152,7 +133,7 @@ exports.getCurrentUser = async (req, res) => {
 exports.getUserById = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findById({id}).select(
+    const user = await User.findById({ id }).select(
       "-password -updatedAt -createdAt"
     );
     res.json(user);
