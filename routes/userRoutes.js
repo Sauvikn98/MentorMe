@@ -4,28 +4,27 @@ const auth = require("../middleware/auth");
 
 
 const {
-  createMentor,
-  createMentee,
-  userLogin,
-  userLogout,
-  userDelete,
   getCurrentUser,
+  getUserById,
   getUserByName,
+  createMentee,
+  createMentor,
+  loginUser
 } = require("../controller/UserController");
 
-
-
-UserRoutes.get("/users/me", auth, getCurrentUser);
-
-UserRoutes.get("/users/search/:name", getUserByName);
 
 UserRoutes.post("/user/register/mentor", createMentor);
 
 UserRoutes.post("/user/register/mentee", createMentee);
 
-UserRoutes.post("/user/login", userLogin);
-UserRoutes.post("/user/logout",auth, userLogout);
-UserRoutes.delete("/user/delete/:id", userDelete);
+UserRoutes.post("/user/login", loginUser);
+
+UserRoutes.get("/user/current", auth, getCurrentUser);
+
+UserRoutes.get("/user/:id", auth, getUserById);
+
+UserRoutes.get("/user/search/:name", auth, getUserByName);
+
 
 // UserRoutes.patch("/user/:id", async (req, res) => {
 //   const updates = Object.keys(req.body);

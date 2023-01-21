@@ -25,6 +25,10 @@ app.use(compression());
 
 app.use(UserRoutes);
 
+app.get('/ping', (req, res)=> {
+  return res.send({msg: 'Hello'})
+})
+
 // port
 
 const port = process.env.PORT || 5000;

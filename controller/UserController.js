@@ -1,5 +1,6 @@
 const { User, Mentee, Mentor } = require("../modals/mongoose-model");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 exports.createMentor = async (req, res) => {
   const { email, password, name } = req.body;
@@ -43,6 +44,8 @@ exports.createMentor = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
+
+
 exports.createMentee = async (req, res) => {
   const { email, password, name } = req.body;
 
@@ -85,7 +88,9 @@ exports.createMentee = async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 };
-exports.userLogin = async (req, res) => {
+
+
+exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -131,19 +136,6 @@ exports.userLogin = async (req, res) => {
 //   }
 // };
 
-exports.deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) {
-      return res.status(404).send({ error: "No user found with such Id" });
-    }
-    res.status(200).json({ msg: "User deleted successfully" });
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ error: "Some error occured during delete user operation" });
-  }
-};
 
 exports.getCurrentUser = async (req, res) => {
   try {
@@ -158,8 +150,9 @@ exports.getCurrentUser = async (req, res) => {
 };
 
 exports.getUserById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const user = await User.findById(req.params.userId).select(
+    const user = await User.findById({id}).select(
       "-password -updatedAt -createdAt"
     );
     res.json(user);

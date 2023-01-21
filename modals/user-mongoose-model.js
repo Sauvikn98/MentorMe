@@ -27,16 +27,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minlength: 6,
-    validate(value) {
-      if (value.includes("password")) {
-        throw new Error("Please set another password");
-      }
-    },
+    minlength: 6
   },
   profileCompleted: {
     type: Boolean,
-    default: true,
+    default: false,
     required: true,
   },
   profileImage: {
