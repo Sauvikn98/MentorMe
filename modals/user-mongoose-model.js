@@ -39,6 +39,9 @@ const userSchema = new mongoose.Schema({
     default: true,
     required: true,
   },
+  profileImage: {
+    type: String
+  },
   education:[
     {
       collegeName: String,
