@@ -19,9 +19,6 @@ const mentorSchema = new mongoose.Schema({
       id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
-      },
-      name: {
-        type: String
       }
     }
   ],

@@ -21,7 +21,6 @@ module.exports = function (req, res, next) {
       } else {
         //console.log("decoded.user =", decoded.user);
         const user = await User.findOne({ _id: decoded.user.id })
-        console.log("user=", user);
         req.user = user;
         next();
       }
