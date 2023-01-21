@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const mentorSchema = new mongoose.Schema({
   approvedMentees: [
     {
@@ -9,9 +8,9 @@ const mentorSchema = new mongoose.Schema({
         ref: "user",
       },
       name: {
-        type: String
-      }
-    }
+        type: String,
+      },
+    },
   ],
 
   pendingMentees: [
@@ -19,21 +18,19 @@ const mentorSchema = new mongoose.Schema({
       id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
-      }
-    }
+      },
+    },
   ],
-  
-  experience:[
+
+  experience: [
     {
       companyName: String,
       startDate: Date,
       endDate: Date,
       current: Boolean,
-      description: String
-    }
-  ]
+      description: String,
+    },
+  ],
 });
 
- module.exports=  mentorSchema;
-
- 
+module.exports = mentorSchema;

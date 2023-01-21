@@ -1,5 +1,5 @@
 const express = require("express");
-const compression= require("compression");
+const compression = require("compression");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 require("dotenv").config();
@@ -19,7 +19,7 @@ app.use(cors());
 app.use(compression());
 app.use(UserRoutes);
 app.use(ConnectionRoutes);
-app.use(PostRoutes)
+app.use(PostRoutes);
 
 // port
 const port = process.env.PORT || 5000;

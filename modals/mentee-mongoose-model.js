@@ -1,7 +1,7 @@
-const mongoose= require('mongoose');
+const mongoose = require("mongoose");
 
 //SCHEMA FOR THE MENTEE
-const menteeSchema= new mongoose.Schema({
+const menteeSchema = new mongoose.Schema({
   approvedMentors: [
     {
       id: {
@@ -9,9 +9,9 @@ const menteeSchema= new mongoose.Schema({
         ref: "user",
       },
       name: {
-        type: String
-      }
-    }
+        type: String,
+      },
+    },
   ],
 
   pendingMentors: [
@@ -21,10 +21,10 @@ const menteeSchema= new mongoose.Schema({
         ref: "user",
       },
       name: {
-        type: String
-      }
-    }
+        type: String,
+      },
+    },
   ],
 });
 
-module.exports=menteeSchema ;
+module.exports = menteeSchema;

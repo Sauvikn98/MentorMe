@@ -26,7 +26,7 @@ exports.createMentor = async (req, res) => {
       user: {
         id: user.id,
         role: user.account_type,
-        name: user.name
+        name: user.name,
       },
     };
 
@@ -69,7 +69,7 @@ exports.createMentee = async (req, res) => {
       user: {
         id: user.id,
         role: user.account_type,
-        name: user.name
+        name: user.name,
       },
     };
 
@@ -106,7 +106,7 @@ exports.loginUser = async (req, res) => {
       user: {
         id: user.id,
         role: user.account_type,
-        name: user.name
+        name: user.name,
       },
     };
 
