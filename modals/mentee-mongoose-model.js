@@ -1,24 +1,30 @@
 const mongoose= require('mongoose');
 
-
-
-
-
-//SCHEMA FOR THE MENTOR
+//SCHEMA FOR THE MENTEE
 const menteeSchema= new mongoose.Schema({
-  
-    followedMentors: [
-        {
-         mentorId: String
-        },
-      ],
-      questions: [
-        {
-         questionId: String
-        },
-      ]
+  approvedMentors: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+      name: {
+        type: String
+      }
+    }
+  ],
 
-    
+  pendingMentors: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+      name: {
+        type: String
+      }
+    }
+  ],
 });
 
 module.exports=menteeSchema ;

@@ -1,23 +1,32 @@
 const jwt=require('jsonwebtoken');
 const {User}=require("../modals/mongoose-model");
-const config=require("../config");
+require('dotenv').config();
 
-const auth= async(req,res,next)=>{
-   try{
-       const token=req.header('Authorization');
-       const decoded= jwt.verify(token,`${config.jwt_token}`);
-       const user=await User.findOne({_id:decoded._id,'tokens.token':token})
-       if(!user){
-           return res.status(404).send({error: "Error during authentication"})
-       }
-       req.token=token;
-       req.user=user;
-       next();
-   }
-   catch(e)
-   {
-       return res.status(401).send({error:"Unauthorized for this operation"});
-   }
-}
+module.exports = function (req, res, next) {
+  // Get token from header
+  const token = req.header('x-auth-token');
+  console.log({token})
 
-module.exports=auth;
+  // Check if token exists
+  if (!token) {
+    return res.status(401).json({ msg: 'No token, access denied' });
+  }
+
+  // Verify token
+  try {
+    jwt.verify(token, process.env.JWT_TOKEN, async (error, decoded) => {
+      //console.log({error, decoded})
+      if (error) {
+        return res.status(401).json({ msg: 'Invalid Token' });
+      } else {
+        //console.log("decoded.user =", decoded.user);
+        const user = await User.findOne({ _id: decoded.user.id })
+        console.log("user=", user);
+        req.user = user;
+        next();
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ errors: [{ msg: 'Server Error' }] });
+  }
+};

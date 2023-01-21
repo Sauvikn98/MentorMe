@@ -1,10 +1,5 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const config = require("../config");
-const bcrypt=require("bcrypt");
-const jwt= require("jsonwebtoken");
-
-
 
 
 const baseOptions = {
@@ -32,49 +27,50 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    minlenght: 7,
+    minlength: 6,
     validate(value) {
       if (value.includes("password")) {
-        throw new Error("Please set another passowrd");
+        throw new Error("Please set another password");
       }
     },
   },
-
-  completed: {
+  profileCompleted: {
     type: Boolean,
+    default: true,
     required: true,
   },
-  tokens: [
+  education:[
     {
-      token: {
-        type: String,
-        required: false,
-      },
-    },
-  ],
-},baseOptions);
-
-
-//SCHEMA METHODS TO BE APPLIED ON INSTANCES OF USER OBJECT
-userSchema.methods.generateAuthToken = async function () {
-    const user = this;
-    const token = jwt.sign({ _id: user.id.toString() }, config.jwt_token);
-    user.tokens = user.tokens.concat({ token });
-    await user.save();
-    return token;
-  };
-  
-
-  
-   // MOONGOOSE MIDDLEWARE TO HASH THE PASSWORD BEFORE SAVING
-  
-  userSchema.pre("save", async function (next) {
-    const user = this;
-  
-    if (user.isModified("password")) {
-      user.password = await bcrypt.hash(user.password, 8);
+      collegeName: String,
+      startDate: Date,
+      endDate: Date,
+      current: Boolean,
+      description: String
     }
-    next();
-  });
+  ],
+  posts: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "post",
+      },
+      title: {
+        type: String
+      }
+    }
+  ],
+  comments: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "post",
+      },
+      title: {
+        type: String
+      }
+    }
+  ]
+  
+},baseOptions);
   
 module.exports = userSchema
