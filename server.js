@@ -6,6 +6,7 @@ require("dotenv").config();
 require("./db/mongoose");
 const UserRoutes = require("./routes/userRoutes");
 const ConnectionRoutes = require("./routes/connectionRoutes");
+const PostRoutes = require("./routes/postRoutes");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(cors());
 app.use(compression());
 app.use(UserRoutes);
 app.use(ConnectionRoutes);
+app.use(PostRoutes)
 
 // port
 const port = process.env.PORT || 5000;
