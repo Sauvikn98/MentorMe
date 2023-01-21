@@ -14,8 +14,8 @@ const {
 
 ConnectionRoutes.post("/connection/requestMentorship/:mentorId", auth, requestForMentorship);
 ConnectionRoutes.post("/connection/approveMentorship", auth, approveMentorship);
-ConnectionRoutes.post("/connection/declineRequestForMentorship", auth, declineRequestForMentorship);
-ConnectionRoutes.post("/connection/cancelRequestForMentorship", auth, cancelRequestForMentorship);
+ConnectionRoutes.post("/connection/declineRequestForMentorship/:menteeId", auth, declineRequestForMentorship);
+ConnectionRoutes.post("/connection/cancelRequestForMentorship/:mentorId", auth, cancelRequestForMentorship);
 ConnectionRoutes.post("/connection/cancelMentorship", auth, cancelMentorship);
 
 
