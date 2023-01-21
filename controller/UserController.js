@@ -25,6 +25,7 @@ exports.createMentor = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        role: user.account_type
       },
     };
 
@@ -66,6 +67,7 @@ exports.createMentee = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        role: user.account_type
       },
     };
 
@@ -101,6 +103,7 @@ exports.loginUser = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        role: user.account_type
       },
     };
 

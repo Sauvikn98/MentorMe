@@ -5,6 +5,12 @@ const { User, Mentee, Mentor } = require("../modals/mongoose-model");
 // the student ID would be saved to mentor's "pendingMentees" array
 // the mentor ID would be saved to mentee's "pendingMentors" array
 exports.requestForMentorship = async (req, res) => {
+  console.log(req.user);
+  if (req.user.account_type != "mentee") {
+    return res
+      .status(422)
+      .json({ error: "Only Mentee can request for mentorship" });
+  }
   try {
     Mentor.findByIdAndUpdate(
       { _id: req.params.mentorId },
@@ -34,19 +40,30 @@ exports.requestForMentorship = async (req, res) => {
 // accepts a connection request from a mentee by a mentor
 // the student ID would be saved to mentor's "approvedMentees" array
 // the mentor ID would be saved to mentee's "approvedMentors" array
+// the above two actions would be done after removing IDs from pending list
 exports.approveMentorship = async (req, res) => {
+  if (req.user.account_type != "mentor") {
+    return res
+      .status(422)
+      .json({ error: "Only Mentor can approve mentorship request!" });
+  }
   try {
     Mentor.findByIdAndUpdate(
       { _id: req.user.id },
-      { $pull: { pendingMentees: { id: req.params.menteeId } },
-      $push: { approvedMentees: { id: req.params.menteeId } } },
+      // PULL FROM PENDING LIST AND PUSH IT TO APPROVE LIST
+      {
+        $pull: { pendingMentees: { id: req.params.menteeId } },
+        $push: { approvedMentees: { id: req.params.menteeId } },
+      },
       { new: true },
       (err, result) => {
         if (err) return res.status(422).json({ msg: "Something went wrong!" });
         Mentee.findByIdAndUpdate(
           { _id: req.params.menteeId },
-          { $pull: { pendingMentors: { id: req.user.id } },
-          $push: { approvedMentors: { id: req.user.id } } },
+          {
+            $pull: { pendingMentors: { id: req.user.id } },
+            $push: { approvedMentors: { id: req.user.id } },
+          },
           { new: true },
           (err, result) => {
             if (err)
@@ -69,6 +86,11 @@ exports.approveMentorship = async (req, res) => {
 // the student ID would be deleted from mentor's "pendingMentees" array
 // the mentor ID would be deleted from mentee's "pendingMentors" array
 exports.declineRequestForMentorship = async (req, res) => {
+  if (req.user.account_type != "mentor") {
+    return res
+      .status(422)
+      .json({ error: "Only Mentor can decline mentorship request" });
+  }
   try {
     Mentor.findByIdAndUpdate(
       { _id: req.user.id },
@@ -101,6 +123,11 @@ exports.declineRequestForMentorship = async (req, res) => {
 // the student ID would be deleted from mentor's "pendingMentees" array
 // the mentor ID would be deleted from mentee's "pendingMentors" array
 exports.cancelRequestForMentorship = async (req, res) => {
+  if (req.user.account_type != "mentee") {
+    return res
+      .status(422)
+      .json({ error: "Only Mentee can cancel mentorship request" });
+  }
   try {
     Mentor.findByIdAndUpdate(
       { _id: req.params.mentorId },
@@ -133,6 +160,9 @@ exports.cancelRequestForMentorship = async (req, res) => {
 // the student ID would be deleted from mentor's "approvedMentees" array
 // the mentor ID would be deleted from mentee's "approvedMentors" array
 exports.cancelMentorship = async (req, res) => {
+  if (req.user.account_type != "mentor") {
+    return res.status(422).json({ error: "Only Mentor can cancel mentorship" });
+  }
   try {
     Mentor.findByIdAndUpdate(
       { _id: req.user.id },
