@@ -1,31 +1,55 @@
 const express = require("express");
 const UserRoutes = new express.Router();
 const auth = require("../middleware/auth");
-
+const { upload } = require("../cloudinary/cloudinary");
 
 const {
-  createMentor,
-  createMentee,
-  userLogin,
-  userLogout,
-  userDelete,
   getCurrentUser,
+  getUserById,
   getUserByName,
+  createMentee,
+  createMentor,
+  loginUser,
 } = require("../controller/UserController");
 
-
-
-UserRoutes.get("/users/me", auth, getCurrentUser);
-
-UserRoutes.get("/users/search/:name", getUserByName);
+const {
+  addProfileImage,
+  addEducation,
+  addExperience,
+  deleteEducation,
+  deleteExperience,
+} = require("../controller/UserProfileController");
 
 UserRoutes.post("/user/register/mentor", createMentor);
 
 UserRoutes.post("/user/register/mentee", createMentee);
 
-UserRoutes.post("/user/login", userLogin);
-UserRoutes.post("/user/logout",auth, userLogout);
-UserRoutes.delete("/user/delete/:id", userDelete);
+UserRoutes.post("/user/login", loginUser);
+
+UserRoutes.get("/user/current", auth, getCurrentUser);
+
+UserRoutes.get("/user/:id", auth, getUserById);
+
+UserRoutes.get("/user/search/:name", auth, getUserByName);
+
+// routes for user profile---
+
+UserRoutes.post(
+  "/user/profile/addProfileImage",
+  auth,
+  upload.single("profileImage"),
+  addProfileImage
+);
+
+// TO BE DONE -
+
+UserRoutes.post("/user/profile/addEducation", auth, addEducation);
+
+UserRoutes.post("/user/profile/addExperience", auth, addExperience);
+
+UserRoutes.post("/user/profile/deleteEducation", auth, deleteEducation);
+
+UserRoutes.post("/user/profile/deleteExperience", auth, deleteExperience);
 
 // UserRoutes.patch("/user/:id", async (req, res) => {
 //   const updates = Object.keys(req.body);

@@ -1,86 +1,154 @@
-const { User , mentee, mentor } = require("../modals/mongoose-model");
-const bcrypt= require('bcrypt');
-
+const { User, Mentee, Mentor } = require("../modals/mongoose-model");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 exports.createMentor = async (req, res) => {
-  const user = new mentor(req.body);
+  const { email, password, name } = req.body;
 
   try {
-    await user.save();
-    const token = await user.generateAuthToken();
+    let user = await User.findOne({ email });
 
-    res.status(201).send({ user, token });
-  } catch (err) {
-    return res.status(404).send({error: "Error during mentor creation"});
-  }
-};
-exports.createMentee = async (req, res) => {
-  const user = new mentee(req.body);
-  try {
-    await user.save();
-    const token = await user.generateAuthToken();
+    if (user) {
+      return res.status(400).json({ error: "User already exists" });
+    }
 
-    res.status(201).send({ user, token });
-  } catch (err) {
-    return res.status(404).send({error: "Error during mentee creation"});
-  }
-};
-exports.userLogin = async (req, res) => {
-  try {
-    const user = await User.findOne({
-      email: req.body.email,
+    user = new Mentor({
+      name,
+      email,
+      password,
+      account_type: "mentor",
     });
-    if (!user) {
-      return res.status(401).send({error: "No user with such email ID exist"});
-    }
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    await user.save();
 
-    const isMatch = await bcrypt.compare(req.body.password, user.password);
-    if (!isMatch) {
-      return res.status(401).send({error: "The password provides is wrong"});
-    }
-    const token = await user.generateAuthToken();
+    const payload = {
+      user: {
+        id: user.id,
+        role: user.account_type,
+        name: user.name,
+      },
+    };
 
-    res.send({ token, user });
+    jwt.sign(
+      payload,
+      process.env.JWT_TOKEN,
+      { expiresIn: "7 days" },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
   } catch (error) {
-    return res.status(400).send({error: "Some error occured"});
+    console.error(error.message);
+    res.status(500).json({ error: "Server Error" });
   }
 };
 
-exports.userLogout = async (req, res) => {
-  try {
-    req.user.tokens = req.user.tokens.filter((tokens) => {
-      return tokens.token != req.token;
-    });
-    await req.user.save();
-    return res.status(200).send({success: "User logged out successfully"});
-  } catch (e) {
-    return res.status(400).send({error: "Some error occured during the operation "});
-  }
-};
+exports.createMentee = async (req, res) => {
+  const { email, password, name } = req.body;
 
-exports.userDelete = async (req, res) => {
   try {
-    const User = await User.findByIdAndDelete(req.params.id);
-    if (!User) {
-      return res.status(404).send({error: "No user found with such Id"});
+    let user = await User.findOne({ email });
+
+    if (user) {
+      return res.status(400).json({ error: "User already exists" });
     }
-    res.send(User);
-  } catch (err) {
-    return res
-      .status(500)
-      .send({error: "Some error occured during delete user operation"});
+
+    user = new Mentee({
+      name,
+      email,
+      password,
+      account_type: "mentee",
+    });
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    await user.save();
+
+    const payload = {
+      user: {
+        id: user.id,
+        role: user.account_type,
+        name: user.name,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_TOKEN,
+      { expiresIn: "7 days" },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
+exports.loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(401).json({ error: "User doesnot exist!" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Incorrect credential" });
+    }
+
+    const payload = {
+      user: {
+        id: user.id,
+        role: user.account_type,
+        name: user.name,
+      },
+    };
+
+    jwt.sign(
+      payload,
+      process.env.JWT_TOKEN,
+      { expiresIn: "7 days" },
+      (err, token) => {
+        if (err) throw err;
+        return res.json({ token });
+      }
+    );
+  } catch (error) {
+    return res.status(400).send({ error: "Some error occured" });
   }
 };
 
 exports.getCurrentUser = async (req, res) => {
-  res.send(req.user);
+  try {
+    const user = await User.findOne({ _id: req.user.id }).select(
+      "-password -updatedAt -createdAt"
+    );
+    res.json(user);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server Error" });
+  }
+};
+
+exports.getUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById({ id }).select(
+      "-password -updatedAt -createdAt"
+    );
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: "Server Error" });
+  }
 };
 
 exports.getUserByName = async (req, res) => {
-  const name = req.params.name;
-  User.find({ name })
-    .select("name email ")
-    .then(function (users) {
-      res.send(users);
-    });
+  const { name } = req.params;
+  User.find({ name }).then((users) => res.status(200).send(users));
 };

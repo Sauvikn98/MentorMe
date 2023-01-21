@@ -1,24 +1,30 @@
-const mongoose= require('mongoose');
+const mongoose = require("mongoose");
 
+//SCHEMA FOR THE MENTEE
+const menteeSchema = new mongoose.Schema({
+  approvedMentors: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+      name: {
+        type: String,
+      },
+    },
+  ],
 
-
-
-
-//SCHEMA FOR THE MENTOR
-const menteeSchema= new mongoose.Schema({
-  
-    followedMentors: [
-        {
-         mentorId: String
-        },
-      ],
-      questions: [
-        {
-         questionId: String
-        },
-      ]
-
-    
+  pendingMentors: [
+    {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+      },
+      name: {
+        type: String,
+      },
+    },
+  ],
 });
 
-module.exports=menteeSchema ;
+module.exports = menteeSchema;
