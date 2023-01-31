@@ -1,44 +1,52 @@
-import React from 'react'
-import {Card,
-    CardMedia,
-    Avatar,
-    CardActionArea,
-    CardContent,
-    Typography,
-    Box,
-    Button} from '@mui/material'
-import { useState, useEffect } from 'react'
+import React from "react";
+import {
+  Card,
+  CardMedia,
+  Avatar,
+  CardActionArea,
+  CardContent,
+  Typography,
+  Box,
+  Button,
+} from "@mui/material";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-
-function MentorProfileCard({mentor}) {
-  const [mentorData, setMentorData] = useState(null)
+function MentorProfileCard({ mentor }) {
+  const navigate = useNavigate();
+  const [mentorData, setMentorData] = useState(null);
   const { jwt_token } = useSelector((state) => state.auth);
 
-  useEffect(()=> {
+  useEffect(() => {
     fetch(`http://127.0.0.1:5000/user/${mentor.id}`, {
       headers: {
-          'x-auth-token': jwt_token
-        },
+        "x-auth-token": jwt_token,
+      },
       method: "GET",
     })
       .then((res) => res.json())
       .then((data) => {
         console.log({ data });
-        setMentorData(data)
+        setMentorData(data);
       });
-  }, [])
-  if(!mentorData){
-    return <div>Loading...</div>
+  }, []);
+  if (!mentorData) {
+    return <div>Loading...</div>;
   }
+  const handleNavigate = () => {
+    navigate(`/profile/${mentorData._id}`);
+  };
   return (
-    <Card>
-      
-        <Box sx={{display:'flex',
-            justifyContent:'center',
-            alignItems:'center',marginTop:'2rem'}}>
-
-        
+    <Card sx={{ cursor: "pointer" }} onClick={handleNavigate}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "2rem",
+        }}
+      >
         <Avatar
           sx={{
             height: "100px",
@@ -49,22 +57,26 @@ function MentorProfileCard({mentor}) {
         >
           D
         </Avatar>
-        </Box>
-        <CardContent sx={{display:'flex',flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
-          <Typography variant="h5">
-            {mentorData?.name}
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Software Developer at Google
-          </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Mentees: {mentorData?.approvedMentees?.length} 
-          </Typography>
-          {/* <Button>Send Request</Button> */}
-        </CardContent>
-      
+      </Box>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Typography variant="h5">{mentorData?.name}</Typography>
+        <Typography variant="body1" color="text.secondary">
+          Software Developer at Google
+        </Typography>
+        <Typography variant="body1" color="text.secondary">
+          Mentees: {mentorData?.approvedMentees?.length}
+        </Typography>
+        {/* <Button>Send Request</Button> */}
+      </CardContent>
     </Card>
-  )
+  );
 }
 
-export default MentorProfileCard
+export default MentorProfileCard;

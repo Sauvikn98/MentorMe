@@ -102,6 +102,43 @@ export const addEducation = createAsyncThunk(
       }
     }
   )
+
+  export const requestForMentorship = createAsyncThunk(
+    'connection/request',
+    async (userData, thunkAPI) => {
+      try {
+        return await authService.requestForMentorship(userData)
+      } catch (error) {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+      }
+    }
+  )
+
+  export const approveMentorship = createAsyncThunk(
+    'connection/approve',
+    async (userData, thunkAPI) => {
+      try {
+        return await authService.approveMentorship(userData)
+      } catch (error) {
+        const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+      }
+    }
+  )
+
+
+
 const initialState = {
     isLoading: false,
     isError: false,

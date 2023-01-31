@@ -82,7 +82,7 @@ function App() {
           />
           <Route
             exact
-            path="/profile"
+            path="/profile/:userId"
             element={
               <PrivateRoute>
                 <UserProfile />

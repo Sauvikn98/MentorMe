@@ -48,7 +48,7 @@ function Layout(props) {
       {
         text: "Profile",
         icon: <AccountCircle />,
-        path: "/profile",
+        path: `/profile/${user._id}`,
       },
     ];
   } else {
@@ -71,7 +71,7 @@ function Layout(props) {
       {
         text: "Profile",
         icon: <AccountCircle />,
-        path: "/profile",
+        path: `/profile/${user._id}`,
       },
     ];
   }
