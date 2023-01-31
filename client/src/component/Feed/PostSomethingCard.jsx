@@ -34,7 +34,7 @@ function PostSomethingCard({ user }) {
         avatar={
           <Avatar sx={{ bgcolor: "primary.main" }} aria-label="recipe"></Avatar>
         }
-        title="Post Something for you mentees..."
+        title="Post Something for your mentees..."
       />
       <CardContent>
         <TextField

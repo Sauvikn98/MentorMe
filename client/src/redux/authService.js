@@ -129,10 +129,11 @@ export const addEducation = async (userData) => {
   };
 
   export const approveMentorship = async (userData) => {
-    return fetch(`http://127.0.0.1:5000/connection/approveMentorship/${userData.menteeId}`, {
+    const {menteeId, jwt_token} = userData
+    return fetch(`http://127.0.0.1:5000/connection/approveMentorship/${menteeId}`, {
       headers: {
           'Content-Type': 'application/json',
-          'x-auth-token': userData.jwt_token
+          'x-auth-token': jwt_token
         },
       method: "POST",
     })
@@ -153,7 +154,8 @@ const authService = {
   addExperience,
   login,
   getCurrentUser,
-  requestForMentorship
+  requestForMentorship,
+  approveMentorship
 };
 
 export default authService;

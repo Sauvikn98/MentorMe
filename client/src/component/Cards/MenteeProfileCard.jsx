@@ -12,9 +12,11 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { approveMentorship } from "../../redux/authSlice";
 
-function MenteeProfileCard({ mentee }) {
+function MenteeProfileCard({ mentee, pending=false }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [menteeData, setMenteeData] = useState(null);
   const { jwt_token } = useSelector((state) => state.auth);
 
@@ -31,6 +33,13 @@ function MenteeProfileCard({ mentee }) {
         setMenteeData(data);
       });
   }, []);
+  const handleApprove = ()=> {
+    const userData = {
+        menteeId: menteeData._id, 
+        jwt_token
+    }
+    dispatch(approveMentorship(userData))
+  }
   if (!menteeData) {
     return <div>Loading...</div>;
   }
@@ -38,14 +47,16 @@ function MenteeProfileCard({ mentee }) {
     navigate(`/profile/${menteeData._id}`);
   };
   return (
-    <Card sx={{ cursor: "pointer" }} onClick={handleNavigate}>
+    <Card sx={{ }} >
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           marginTop: "2rem",
+          cursor: "pointer" 
         }}
+        onClick={handleNavigate}
       >
         <Avatar
           sx={{
@@ -66,14 +77,22 @@ function MenteeProfileCard({ mentee }) {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h5">{menteeData?.name}</Typography>
+        <Typography variant="h5" onClick={handleNavigate} sx={{cursor:'pointer'}}>{menteeData?.name}</Typography>
         <Typography variant="body1" color="text.secondary">
           Software Developer at Google
         </Typography>
         <Typography variant="body1" color="text.secondary">
           Mentors: {menteeData?.approvedMentors?.length}
         </Typography>
-        {/* <Button>Send Request</Button> */}
+        {
+            pending ? (
+                <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-around'}}>
+                    <Button variant="outlined" size="small" sx={{marginRight:'8px'}} onClick={handleApprove}>Approve</Button>
+                    <Button variant="outlined" size="small">Reject</Button>
+                </Box>
+            ) : null
+        }
+        {/*  */}
       </CardContent>
     </Card>
   );
