@@ -1,4 +1,4 @@
-const { Post } = require("../modals/mongoose-model");
+const { User, Post } = require("../modals/mongoose-model");
 
 exports.addPost = async (req, res) => {
   const { title, text, jobPost } = req.body;
@@ -12,6 +12,22 @@ exports.addPost = async (req, res) => {
       },
       jobPost,
     });
+    console.log(newPost)
+    const user = await User.findOneAndUpdate(
+      {
+        _id: req.user.id,
+      },
+      {
+        $push: {
+          posts: {
+             id: newPost._id,
+             title: newPost.title
+          },
+        },
+      },
+      { new: true }
+    );
+    console.log(user)
     return res.status(200).json(newPost);
   } catch (error) {
     console.error(error.message);
@@ -33,6 +49,21 @@ exports.addComment = async (req, res) => {
       };
       post.comments.push(newComment);
       await post.save();
+      const user = await User.findOneAndUpdate(
+        {
+          _id: req.user.id,
+        },
+        {
+          $push: {
+            comments: {
+               id: newComment._id,
+               title: newComment.text
+            },
+          },
+        },
+        { new: true }
+      );
+      console.log(user)
       return res.status(200).json(post);
     }
   } catch (error) {
