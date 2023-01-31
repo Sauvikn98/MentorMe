@@ -21,7 +21,7 @@ exports.addProfileImage = async (req, res) => {
 
 exports.addEducation = async (req, res) => {
   try {
-    const user = await user.findOneAndUpdate(
+    const user = await User.findOneAndUpdate(
       {
         _id: req.user.id,
       },
@@ -35,16 +35,18 @@ exports.addEducation = async (req, res) => {
             description: req.body.description,
           },
         },
-      }
+      },
+      { new: true }
     );
     return res.json(user);
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Server Error" });
   }
 };
 exports.addExperience = async (req, res) => {
   try {
-    const user = await user.findOneAndUpdate(
+    const user = await Mentor.findOneAndUpdate(
       {
         _id: req.user.id,
       },
@@ -58,7 +60,8 @@ exports.addExperience = async (req, res) => {
             description: req.body.description,
           },
         },
-      }
+      },
+      { new: true }
     );
     return res.json(user);
   } catch (error) {
@@ -69,7 +72,8 @@ exports.deleteEducation = async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       { _id: req.user.id },
-      { $pull: { education: { _id: req.body._id } } }
+      { $pull: { education: { _id: req.params.id } } },
+      { new: true }
     );
     return res.json(user);
   } catch (error) {
@@ -78,9 +82,10 @@ exports.deleteEducation = async (req, res) => {
 };
 exports.deleteExperience = async (req, res) => {
   try {
-    const user = await User.findOneAndUpdate(
+    const user = await Mentor.findOneAndUpdate(
       { _id: req.user.id },
-      { $pull: { experience: { _id: req.body._id } } }
+      { $pull: { experience: { _id: req.params.id } } },
+      {new: true}
     );
     return res.json(user);
   } catch (error) {

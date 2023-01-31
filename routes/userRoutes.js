@@ -47,9 +47,9 @@ UserRoutes.post("/user/profile/addEducation", auth, addEducation);
 
 UserRoutes.post("/user/profile/addExperience", auth, addExperience);
 
-UserRoutes.post("/user/profile/deleteEducation", auth, deleteEducation);
+UserRoutes.post("/user/profile/deleteEducation/:id", auth, deleteEducation);
 
-UserRoutes.post("/user/profile/deleteExperience", auth, deleteExperience);
+UserRoutes.post("/user/profile/deleteExperience/:id", auth, deleteExperience);
 
 // UserRoutes.patch("/user/:id", async (req, res) => {
 //   const updates = Object.keys(req.body);
