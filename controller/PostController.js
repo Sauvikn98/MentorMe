@@ -35,6 +35,26 @@ exports.addPost = async (req, res) => {
   }
 };
 
+
+exports.getPosts = async (req, res) => {
+  try {
+    console.log("Hello")
+    const myMentors = await User.findById({ _id: req.user.id }).select(
+      "approvedMentors"
+    );
+    console.log(myMentors)
+    const mentorsIds = myMentors.approvedMentors.map(mentor=> mentor.id)
+    const post = await Post.find({ "author.authorId" : { $in : mentorsIds }})
+    if (!post) {
+      return res.status(404).json({ error: "No post found!" });
+    }
+    return res.json(post);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ errors: "Server Error" });
+  }
+};
+
 exports.addComment = async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId);
@@ -131,6 +151,9 @@ exports.getPostByID = async (req, res) => {
     }
     return res.json(post);
   } catch (err) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+    res.status(500).json({ errors: "Server Error" });
   }
 };
+
+
+

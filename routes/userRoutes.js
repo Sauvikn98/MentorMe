@@ -41,7 +41,6 @@ UserRoutes.post(
   addProfileImage
 );
 
-// TO BE DONE -
 
 UserRoutes.post("/user/profile/addEducation", auth, addEducation);
 
