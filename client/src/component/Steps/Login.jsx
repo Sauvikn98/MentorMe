@@ -1,4 +1,4 @@
-import React, {useState}from "react";
+import React, {useState, useEffect}from "react";
 import { Box, Grid, TextField } from "@mui/material";
 import {
   renderButton,
@@ -7,32 +7,31 @@ import {
   renderStepper,
   renderText,
 } from "../common/displayComponent";
+import { useNavigate } from "react-router-dom";
+
 import { useDispatch, useSelector } from "react-redux";
-import { createMentor, createMentee } from "../../redux/authSlice";
+import {  login } from "../../redux/authSlice";
+import { getCurrentUser } from "../../redux/authService";
 
-const EmailAndPassword = ({ state, handleNext, handlePrev }) => {
+const Login = ({ state, handleNext, handlePrev }) => {
   const dispatch = useDispatch();
-  const {} = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
-  const [name, setName] = useState('')
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const {isLoggedIn, jwt_token} = useSelector((state) => state.auth);
   
   
-  const handleSignUp = ()=> {
-    console.log(name, email, password);
+  const handleLogin = ()=> {
+    console.log(email, password);
     let userData = {
-      name,
       email, 
       password
     }
-    if(state.account_type == "mentor"){
-      dispatch(createMentor(userData)).then(res=> handleNext()).catch(err=> console.log(err))
-    } else if (state.account_type == "mentee"){
-      dispatch(createMentee(userData)).then(res=> handleNext()).catch(err=> console.log(err))
-    }
+    dispatch(login(userData))
+    // dispatch(getCurrentUser(jwt_token.token))
   }
-
 
 
 
@@ -47,31 +46,14 @@ const EmailAndPassword = ({ state, handleNext, handlePrev }) => {
         alignItems: "center",
       }}
     >
-      {renderStepper({ state })}
       <Box pt={6} pb={6}>
         {renderText({
-          label: "Create Login Credentials",
+          label: "Login to your Account",
           type: "h6",
           color: "textPrimary",
           align: "center",
         })}
       </Box>
-
-      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
-        <Grid item xs={12}>
-        <TextField
-          label="Your Name"
-          type="text"
-          variant='outlined'
-          color='primary'
-          size='small'
-          fullWidth={true}
-          name="name"
-          value={name}
-          onChange={(e)=> setName(e.target.value)}
-        />
-        </Grid>
-      </Grid>
 
       <Grid container spacing={3} style={{ marginBottom: "16px" }}>
         <Grid item xs={12}>
@@ -105,17 +87,10 @@ const EmailAndPassword = ({ state, handleNext, handlePrev }) => {
       </Grid>
 
       <Grid container component={Box} justifyContent="flex-end" mt={3}>
-        <Box ml={2}>
-          {renderButton({
-            label: "Back",
-            color: "default",
-            onClick: handlePrev,
-          })}
-        </Box>
-        <Box ml={2}>{renderButton({ label: "Next", onClick: handleSignUp })}</Box>
+        <Box ml={2}>{renderButton({ label: "Login", onClick: handleLogin })}</Box>
       </Grid>
     </Box>
   );
 };
 
-export default EmailAndPassword;
+export default Login;

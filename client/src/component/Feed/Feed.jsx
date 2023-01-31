@@ -1,20 +1,32 @@
 import React from 'react'
 import PostCard from '../Posts/PostCard'
-import {TextField} from '@mui/material'
-import AskQuestionCard from './AskQuestionCard'
+import {TextField, Typography} from '@mui/material'
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import PostSomethingCard from './PostSomethingCard';
 
 function Feed() {
-    const arr = [1, 2, 3, 4, 5]
+    const { posts } = useSelector((state) => state.posts);
+    const { user } = useSelector((state) => state.auth);
+  
+    if(!posts?.length){
+        return (
+            <>
+            {user.account_type == "mentor" && (<PostSomethingCard user={user}/>)}
+            <Typography sx={{ maxWidth:'40vw', margin:'2rem auto'}}>No post yet! Connect with {user.account_type == "mentor" ? <span>mentees</span> : <span>mentors</span>} to view their posts. </Typography>
+            </>
+        )
+    }
   return (
     <div style={{
         display:'flex',
         flexDirection:'column',
         alignItems:'center',
     }}>
-        <AskQuestionCard/>
+         {user.account_type == "mentor" && (<PostSomethingCard user={user}/>)}
     {
-        arr.map(item=> {
-            return <PostCard key={item}/>
+        posts?.map(post=> {
+            return <PostCard key={post._id} post={post}/>
         })
     }
     </div>

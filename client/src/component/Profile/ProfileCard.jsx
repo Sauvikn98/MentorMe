@@ -7,10 +7,17 @@ import {
   Typography,
   Box
 } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+
 
 function ProfileCard() {
+  const { user } = useSelector((state) => state.auth);
+
+  if(!user) {
+    return <div>Loading...</div>
+  }
   return (
-    <Card sx={{ maxWidth: '20vw'}}>
+    <Card>
       
         <Box sx={{display:'flex',
             justifyContent:'center',
@@ -25,19 +32,22 @@ function ProfileCard() {
             fontSize: 48,
           }}
         >
-          D
+          {/* {user?.name[0]} */}
         </Avatar>
         </Box>
         <CardContent sx={{display:'flex',flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
           <Typography variant="h5">
-            Dhanmoni Nath
+            {user?.name}
           </Typography>
-          <Typography variant="body1" color="text.secondary">
-            Software Developer at Google Lorem ips dolor, sit amet consectetur adipisicing elit.
+          {user.account_type == 'mentee' ? (
+            <Typography variant="body1" color="text.secondary">
+            My Mentors: {user?.approvedMentors?.length}
           </Typography>
-          <Typography variant="body1" color="text.secondary">
-            My Mentees: 250 
+          ) : (
+            <Typography variant="body1" color="text.secondary">
+            My Mentees: {user?.approvedMentees?.length}
           </Typography>
+          )}
         </CardContent>
       
     </Card>

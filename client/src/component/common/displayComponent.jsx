@@ -21,7 +21,7 @@ export const renderText = ({ type, label, color, ...rest }) => (
   </Typography>
 );
 
-export const renderInputField = ({ name, label, type, state, onChange }) => {
+export const renderInputField = ({ name, label, type, state, onChange, disabled = false }) => {
   const { data, errors } = state;
   return (
     <TextField
@@ -36,6 +36,7 @@ export const renderInputField = ({ name, label, type, state, onChange }) => {
       error={errors[name] ? true : false}
       helperText={errors[name] ? errors[name] : ""}
       onChange={onChange}
+      disabled={disabled}
     />
   );
 };

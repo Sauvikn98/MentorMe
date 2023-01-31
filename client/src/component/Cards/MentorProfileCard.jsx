@@ -7,8 +7,30 @@ import {Card,
     Typography,
     Box,
     Button} from '@mui/material'
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux";
 
-function MentorProfileCard() {
+
+function MentorProfileCard({mentor}) {
+  const [mentorData, setMentorData] = useState(null)
+  const { jwt_token } = useSelector((state) => state.auth);
+
+  useEffect(()=> {
+    fetch(`http://127.0.0.1:5000/user/${mentor.id}`, {
+      headers: {
+          'x-auth-token': jwt_token
+        },
+      method: "GET",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log({ data });
+        setMentorData(data)
+      });
+  }, [])
+  if(!mentorData){
+    return <div>Loading...</div>
+  }
   return (
     <Card>
       
@@ -30,15 +52,15 @@ function MentorProfileCard() {
         </Box>
         <CardContent sx={{display:'flex',flexDirection:'column', alignItems:'center', justifyContent:'center'}}>
           <Typography variant="h5">
-            Dhanmoni Nath
+            {mentorData?.name}
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Software Developer at Google
           </Typography>
           <Typography variant="body1" color="text.secondary">
-            Mentees: 250 
+            Mentees: {mentorData?.approvedMentees?.length} 
           </Typography>
-          <Button>Send Request</Button>
+          {/* <Button>Send Request</Button> */}
         </CardContent>
       
     </Card>

@@ -16,34 +16,65 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import PeopleIcon from "@mui/icons-material/PeopleOutlineOutlined";
+import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import HomeIcon from "@mui/icons-material/HomeOutlined";
 import WorkIcon from "@mui/icons-material/WorkOutlineOutlined";
 import { useNavigate, useLocation} from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {signOutUser} from '../redux/authSlice'
 
-const navItems = [
-  {
-    text: "Community",
-    icon: <HomeIcon />,
-    path: "/community",
-  },
-  {
-    text: "Mentors",
-    icon: <PeopleIcon />,
-    path: "/mentors",
-  },
-  {
-    text: "Jobs",
-    icon: <WorkIcon />,
-    path: "/jobs",
-  },
-];
 
 function Layout(props) {
   const { children } = props;
   const navigate = useNavigate();
   const location = useLocation();
-
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const {isLoggedIn,user, jwt_token} = useSelector((state) => state.auth);
+
+  let navItems;
+  if(user.account_type == "mentor"){
+    navItems = [
+      {
+        text: "Community",
+        icon: <HomeIcon />,
+        path: "/community",
+      },
+      {
+        text: "Mentees",
+        icon: <PeopleIcon />,
+        path: "/mentees",
+      },
+      {
+        text: "Profile",
+        icon: <AccountCircle />,
+        path: "/profile",
+      },
+    ];
+  } else {
+    navItems = [
+      {
+        text: "Community",
+        icon: <HomeIcon />,
+        path: "/community",
+      },
+      {
+        text: "Mentors",
+        icon: <PeopleIcon />,
+        path: "/mentors",
+      },
+      {
+        text: "Jobs",
+        icon: <WorkIcon />,
+        path: "/jobs",
+      },
+      {
+        text: "Profile",
+        icon: <AccountCircle />,
+        path: "/profile",
+      },
+    ];
+  }
 
   const handleChange = (event) => {
     setAuth(event.target.checked);
@@ -56,6 +87,10 @@ function Layout(props) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleLogout = ()=> {
+    dispatch(signOutUser())
+    window.location.href= '/'
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -118,7 +153,7 @@ function Layout(props) {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                <LogoutRoundedIcon />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -135,8 +170,7 @@ function Layout(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </div>
           </Box>
