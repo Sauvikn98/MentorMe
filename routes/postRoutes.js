@@ -8,11 +8,13 @@ const {
   getPostByID,
   removeComment,
   removePost,
-  getPosts
+  getPostsFromMentors,
+  getPostsFromMentees
 } = require("../controller/PostController");
 
 PostRoutes.post("/posts/addPost", auth, addPost);
-PostRoutes.get("/posts/getPosts", auth, getPosts);
+PostRoutes.get("/posts/getPostsFromMentors", auth, getPostsFromMentors);
+PostRoutes.get("/posts/getPostsFromMentees", auth, getPostsFromMentees);
 PostRoutes.post("/posts/removePost/:postId", auth, removePost);
 PostRoutes.post("/posts/addComment/:postId", auth, addComment);
 PostRoutes.post("/posts/removeComment/:postId/:commentId", auth, removeComment);

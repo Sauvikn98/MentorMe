@@ -1,17 +1,34 @@
-const { User, Post } = require("../modals/mongoose-model");
+const { User, Post, MenteePost } = require("../modals/mongoose-model");
 
 exports.addPost = async (req, res) => {
-  const { title, text, jobPost } = req.body;
+  const { title, text, targetMentorId, targetMentorName } = req.body;
   try {
-    const newPost = await Post.create({
-      title,
-      text,
-      author: {
-        authorId: req.user.id,
-        authorName: req.user.name,
-      },
-      jobPost,
-    });
+    let newPost;
+    if(req.user.account_type == 'mentee'){
+      newPost = await MenteePost.create({
+        title,
+        text,
+        author: {
+          authorId: req.user.id,
+          authorName: req.user.name,
+        },
+        targetMentor: {
+          id: targetMentorId,
+          name: targetMentorName
+        },
+        post_type: "mentee_post"
+      });
+    } else {
+      newPost = await Post.create({
+        title,
+        text,
+        author: {
+          authorId: req.user.id,
+          authorName: req.user.name,
+        },
+        post_type: "mentor_post"
+      });
+    }
     console.log(newPost)
     const user = await User.findOneAndUpdate(
       {
@@ -36,7 +53,7 @@ exports.addPost = async (req, res) => {
 };
 
 
-exports.getPosts = async (req, res) => {
+exports.getPostsFromMentors = async (req, res) => {
   try {
     console.log("Hello")
     const myMentors = await User.findById({ _id: req.user.id }).select(
@@ -45,6 +62,22 @@ exports.getPosts = async (req, res) => {
     console.log(myMentors)
     const mentorsIds = myMentors.approvedMentors.map(mentor=> mentor.id)
     const post = await Post.find({ "author.authorId" : { $in : mentorsIds }})
+    if (!post) {
+      return res.status(404).json({ error: "No post found!" });
+    }
+    return res.json(post);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ errors: "Server Error" });
+  }
+};
+
+exports.getPostsFromMentees = async (req, res) => {
+  try {
+    console.log("Hello")
+    
+   
+    const post = await MenteePost.find({"targetMentor.id": req.user.id})
     if (!post) {
       return res.status(404).json({ error: "No post found!" });
     }

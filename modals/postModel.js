@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+const baseOptions = {
+  discriminatorKey: "post_type",
+};
+
 const postSchema = new mongoose.Schema(
   {
     title: {
@@ -17,15 +21,7 @@ const postSchema = new mongoose.Schema(
       },
       authorName: String,
     },
-    // If the type of post is job-posting,
-    // then this field will be useful
-    // for seperating job posts from normal posts.
-    jobPost: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-
+    
     comments: [
       {
         authorId: {
@@ -41,7 +37,8 @@ const postSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
+  baseOptions
 );
 
 module.exports = postSchema;
