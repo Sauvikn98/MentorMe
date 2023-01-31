@@ -7,6 +7,8 @@ import Mentors from "./pages/Mentors/Mentors";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PrivateRoute from "./component/common/PrivateRoute";
+import Mentees from "./pages/Mentees/Mentees";
+import UserProfile from "./pages/UserProfile/UserProfile";
 
 const theme = createTheme({
   typography: {
@@ -66,6 +68,24 @@ function App() {
             element={
               <PrivateRoute>
                 <Mentors />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/mentees"
+            element={
+              <PrivateRoute>
+                <Mentees />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <UserProfile />
               </PrivateRoute>
             }
           />
