@@ -29,7 +29,15 @@ const Login = ({ state, handleNext, handlePrev }) => {
       email, 
       password
     }
-    dispatch(login(userData))
+    dispatch(login(userData)).then(res=> {
+        console.log(res)
+        if(res.payload.token){
+            navigate('/community')
+        } else {
+            alert(res.payload.error)
+        }
+        
+    })
     // dispatch(getCurrentUser(jwt_token.token))
   }
 

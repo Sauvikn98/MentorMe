@@ -1,7 +1,7 @@
 const { User, Post, MenteePost } = require("../modals/mongoose-model");
 
 exports.addPost = async (req, res) => {
-  const { title, text, targetMentorId, targetMentorName } = req.body;
+  const { title, text } = req.body;
   try {
     let newPost;
     if(req.user.account_type == 'mentee'){
@@ -12,10 +12,7 @@ exports.addPost = async (req, res) => {
           authorId: req.user.id,
           authorName: req.user.name,
         },
-        targetMentor: {
-          id: targetMentorId,
-          name: targetMentorName
-        },
+        targetMentor: req.body.targetMentor,
         post_type: "mentee_post"
       });
     } else {
@@ -61,7 +58,7 @@ exports.getPostsFromMentors = async (req, res) => {
     );
     console.log(myMentors)
     const mentorsIds = myMentors.approvedMentors.map(mentor=> mentor.id)
-    const post = await Post.find({ "author.authorId" : { $in : mentorsIds }})
+    const post = await Post.find({ "author.authorId" : { $in : mentorsIds }}).sort({createdAt: -1})
     if (!post) {
       return res.status(404).json({ error: "No post found!" });
     }
@@ -77,7 +74,7 @@ exports.getPostsFromMentees = async (req, res) => {
     console.log("Hello")
     
    
-    const post = await MenteePost.find({"targetMentor.id": req.user.id})
+    const post = await MenteePost.find({"targetMentor.id": req.user.id}).sort({createdAt: -1})
     if (!post) {
       return res.status(404).json({ error: "No post found!" });
     }
@@ -109,7 +106,7 @@ exports.addComment = async (req, res) => {
         {
           $push: {
             comments: {
-               id: newComment._id,
+               id: req.params.postId,
                title: newComment.text
             },
           },

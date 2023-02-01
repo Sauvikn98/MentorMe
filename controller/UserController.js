@@ -4,7 +4,8 @@ const jwt = require("jsonwebtoken");
 
 exports.createMentor = async (req, res) => {
   const { email, password, name } = req.body;
-
+  console.log(req.body)
+  console.log(email, password, name)
   try {
     let user = await User.findOne({ email });
 
@@ -40,7 +41,7 @@ exports.createMentor = async (req, res) => {
       }
     );
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
     res.status(500).json({ error: "Server Error" });
   }
 };
@@ -116,7 +117,7 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "7 days" },
       (err, token) => {
         if (err) throw err;
-        return res.json({ token });
+        return res.json({ token, user });
       }
     );
   } catch (error) {
@@ -138,12 +139,14 @@ exports.getCurrentUser = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   const { id } = req.params;
+  console.log({id})
   try {
-    const user = await User.findById({ id }).select(
+    const user = await User.findById({ _id: id }).select(
       "-password -updatedAt -createdAt"
     );
     res.json(user);
   } catch (err) {
+    console.log({err})
     res.status(500).json({ error: "Server Error" });
   }
 };

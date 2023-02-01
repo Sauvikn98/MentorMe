@@ -20,6 +20,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { addExperience } from "../../redux/authSlice";
+import { useNavigate } from "react-router-dom";
+
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,6 +37,8 @@ const ProfessionalInfo = ({
   const [endDate, setEndDate] = useState(null);
   const [companyName, setCompanyName] = useState("");
   const [description, setDesc] = useState("");
+  const navigate = useNavigate();
+
 
   const { jwt_token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -43,6 +47,9 @@ const ProfessionalInfo = ({
     setCurrent(!current);
   };
   const handleSubmitExperience = () => {
+    if(!companyName || !description || !startDate) {
+      return alert("All fields are required!")
+    }
     let userData = {
       companyName,
       description,
@@ -55,7 +62,13 @@ const ProfessionalInfo = ({
     }
     console.log(userData);
     dispatch(addExperience(userData))
-      .then((res) => handleNext())
+      .then((res) => {
+        if(res.payload._id){
+          navigate('/community')
+      } else {
+          alert(res.payload.error)
+      }
+      })
       .catch((err) => console.log(err));
   };
 

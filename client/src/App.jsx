@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PrivateRoute from "./component/common/PrivateRoute";
 import Mentees from "./pages/Mentees/Mentees";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import PostPage from "./pages/Posts/PostPage";
 
 const theme = createTheme({
   typography: {
@@ -86,6 +87,15 @@ function App() {
             element={
               <PrivateRoute>
                 <UserProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/posts/:postId"
+            element={
+              <PrivateRoute>
+                <PostPage />
               </PrivateRoute>
             }
           />

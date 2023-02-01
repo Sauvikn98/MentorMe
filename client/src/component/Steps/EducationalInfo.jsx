@@ -39,6 +39,9 @@ const EducationalInfo = ({ state, handleChange, handleNext, handlePrev }) => {
   };
 
   const handleSubmitEducation = ()=> {
+    if(!collegeName || !description || !startDate) {
+      return alert("All fields are required!")
+    }
     let userData = {
       collegeName,
       description,
@@ -46,6 +49,7 @@ const EducationalInfo = ({ state, handleChange, handleNext, handlePrev }) => {
       current,
       jwt_token: jwt_token
     }
+
     if(current == false){
       userData.endDate = endDate.$d.toISOString()
     }
@@ -135,7 +139,7 @@ const EducationalInfo = ({ state, handleChange, handleNext, handlePrev }) => {
       <FormGroup>
         <FormControlLabel
           control={<Checkbox onChange={handleCheckBox} />}
-          label="Currently Working Here"
+          label="Currently Studying Here"
         />
       </FormGroup>
 

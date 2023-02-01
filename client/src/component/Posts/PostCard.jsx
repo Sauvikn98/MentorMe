@@ -11,13 +11,17 @@ import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function PostCard({post}) {
   
+  const navigate = useNavigate()
+  const handleNavigate = ()=> {
+    navigate(`/posts/${post._id}`)
+  }
   return (
-    <Card sx={{ width: '35vw', marginBottom:'2rem' }}>
+    <Card sx={{ width: '35vw', marginBottom:'2rem', cursor:'pointer' }} onClick={handleNavigate}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "primary.main" }} aria-label="recipe">

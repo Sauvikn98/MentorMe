@@ -22,10 +22,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { requestForMentorship } from "../../redux/authSlice";
 import { addPost} from "../../redux/postSlice";
-import PostSomethingCard from "../../component/Feed/PostSomethingCard";
+import Loading from "../../component/common/Loading";
 
 function UserProfile() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { user, jwt_token } = useSelector((state) => state.auth);
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
@@ -34,6 +35,9 @@ function UserProfile() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
 
+  const handleNavigate = (postId)=> {
+    navigate(`/posts/${postId}`)
+  }
   const handlePost = () => {
     if (!title || !text) {
       return alert("Title and Body must not be empty!");
@@ -74,8 +78,8 @@ function UserProfile() {
       setError(true);
     }
   }, []);
-  if (!user && !userData) {
-    return <div>Loading..</div>;
+  if (!user || !userData) {
+    return <Loading/>
   }
   return (
     <Layout>
@@ -320,6 +324,7 @@ function UserProfile() {
                           cursor: "pointer",
                           marginBottom: "8px",
                         }}
+                        onClick={()=>handleNavigate(post.id)}
                       >
                         <ListItem alignItems="flex-start" key={post._id}>
                           <ListItemText
@@ -361,6 +366,7 @@ function UserProfile() {
                           cursor: "pointer",
                           marginBottom: "8px",
                         }}
+                        onClick={()=>handleNavigate(comment.id)}
                       >
                         <ListItem alignItems="flex-start" key={comment._id}>
                           <ListItemText

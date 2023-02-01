@@ -26,8 +26,19 @@ const EmailAndPassword = ({ state, handleNext, handlePrev }) => {
       email, 
       password
     }
+    if(!email || !password || !name){
+      return alert("All fields are required!")
+    }
     if(state.account_type == "mentor"){
-      dispatch(createMentor(userData)).then(res=> handleNext()).catch(err=> console.log(err))
+      dispatch(createMentor(userData)).then(
+        res=> {
+          if(res.payload.token) {
+            handleNext()
+          } else {
+            alert(res.payload.error)
+          }
+        }
+        ).catch(err=> console.log(err))
     } else if (state.account_type == "mentee"){
       dispatch(createMentee(userData)).then(res=> handleNext()).catch(err=> console.log(err))
     }

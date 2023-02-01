@@ -40,13 +40,19 @@ function ProfileCard() {
             {user?.name}
           </Typography>
           {user.account_type == 'mentee' ? (
+            <>
             <Typography variant="body1" color="text.secondary">
             My Mentors: {user?.approvedMentors?.length}
           </Typography>
+          <Typography>Role: Mentee</Typography>
+            </>
           ) : (
+            <>
             <Typography variant="body1" color="text.secondary">
             My Mentees: {user?.approvedMentees?.length}
           </Typography>
+          <Typography>Role: Mentor</Typography>
+            </>
           )}
         </CardContent>
       

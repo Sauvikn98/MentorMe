@@ -42,6 +42,7 @@ exports.requestForMentorship = async (req, res) => {
 // the mentor ID would be saved to mentee's "approvedMentors" array
 // the above two actions would be done after removing IDs from pending list
 exports.approveMentorship = async (req, res) => {
+  console.log('approving...', req.params.menteeId)
   if (req.user.account_type != "mentor") {
     return res
       .status(422)
