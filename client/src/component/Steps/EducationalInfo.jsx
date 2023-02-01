@@ -144,13 +144,6 @@ const EducationalInfo = ({ state, handleChange, handleNext, handlePrev }) => {
       </FormGroup>
 
       <Grid container component={Box} justifyContent="flex-end" mt={3}>
-        <Box ml={2}>
-          {renderButton({
-            label: "Back",
-            color: "default",
-            onClick: handlePrev,
-          })}
-        </Box>
         <Box ml={2}>{renderButton({ label: "Next", onClick: handleSubmitEducation })}</Box>
       </Grid>
     </Box>

@@ -47,7 +47,7 @@ function FindMentors() {
       <Grid container spacing={{ xs: 2, md: 3 }}>
         {mentors?.map((mentor) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={mentor._id}>
-            <MentorProfileCard mentor={mentor}/>
+            <MentorProfileCard mentor={mentor} id={mentor._id}/>
           </Grid>
         ))}
       </Grid>

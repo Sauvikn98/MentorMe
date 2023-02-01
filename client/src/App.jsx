@@ -10,6 +10,7 @@ import PrivateRoute from "./component/common/PrivateRoute";
 import Mentees from "./pages/Mentees/Mentees";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import PostPage from "./pages/Posts/PostPage";
+import Jobs from "./pages/Jobs/Jobs";
 
 const theme = createTheme({
   typography: {
@@ -78,6 +79,15 @@ function App() {
             element={
               <PrivateRoute>
                 <Mentees />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/jobs"
+            element={
+              <PrivateRoute>
+                <Jobs />
               </PrivateRoute>
             }
           />

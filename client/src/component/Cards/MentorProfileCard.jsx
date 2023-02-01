@@ -13,15 +13,15 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-function MentorProfileCard({ mentor }) {
+function MentorProfileCard({ mentor, id }) {
   const navigate = useNavigate();
   const [mentorData, setMentorData] = useState(null);
   const { jwt_token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if(mentor._id){
+    if(id){
       
-      fetch(`http://127.0.0.1:5000/user/${mentor._id}`, {
+      fetch(`http://127.0.0.1:5000/user/${id}`, {
         headers: {
           "x-auth-token": jwt_token,
         },
@@ -38,7 +38,7 @@ function MentorProfileCard({ mentor }) {
     return <div>Loading...</div>;
   }
   const handleNavigate = () => {
-    navigate(`/profile/${mentorData._id}`);
+    navigate(`/profile/${id}`);
   };
   return (
     <Card sx={{ cursor: "pointer" }} onClick={handleNavigate}>
@@ -58,7 +58,6 @@ function MentorProfileCard({ mentor }) {
             fontSize: 48,
           }}
         >
-          D
         </Avatar>
       </Box>
       <CardContent
@@ -70,9 +69,9 @@ function MentorProfileCard({ mentor }) {
         }}
       >
         <Typography variant="h5">{mentorData?.name}</Typography>
-        <Typography variant="body1" color="text.secondary">
+        {/* <Typography variant="body1" color="text.secondary">
           Software Developer at Google
-        </Typography>
+        </Typography> */}
         <Typography variant="body1" color="text.secondary">
           Mentees: {mentorData?.approvedMentees?.length}
         </Typography>

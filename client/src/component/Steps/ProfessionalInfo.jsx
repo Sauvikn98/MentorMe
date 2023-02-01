@@ -72,6 +72,10 @@ const ProfessionalInfo = ({
       .catch((err) => console.log(err));
   };
 
+  const handleMenteeNext = ()=> {
+    navigate('/community')
+  }
+
   return (
     <Box
       style={{
@@ -166,14 +170,7 @@ const ProfessionalInfo = ({
 
       <Grid container component={Box} justifyContent="flex-end" mt={3}>
         <Box ml={2}>
-          {renderButton({
-            label: "Back",
-            color: "default",
-            onClick: handlePrev,
-          })}
-        </Box>
-        <Box ml={2}>
-          {state.account_type == "mentee" ? renderButton({ label: "Skip", onClick: handleNext }) : renderButton({ label: "Finish", onClick: handleSubmitExperience })}
+          {state.account_type == "mentee" ? renderButton({ label: "Skip", onClick: handleMenteeNext }) : renderButton({ label: "Finish", onClick: handleSubmitExperience })}
           
         </Box>
       </Grid>

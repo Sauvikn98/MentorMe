@@ -12,7 +12,7 @@ function MyMentors() {
       <Grid container spacing={{ xs: 2, md: 3 }}>
         {user.approvedMentors.map((mentor) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={mentor.id}>
-            <MentorProfileCard mentor={mentor}/>
+            <MentorProfileCard mentor={mentor} id={mentor.id}/>
           </Grid>
         ))}
       </Grid>

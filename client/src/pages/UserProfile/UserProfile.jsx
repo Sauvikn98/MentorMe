@@ -241,6 +241,7 @@ function UserProfile() {
               </List>
             </Box>
           </Paper>
+         
           <Paper sx={{ marginTop: "2rem" }}>
             <Box
               sx={{

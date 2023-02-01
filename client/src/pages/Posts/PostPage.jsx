@@ -147,6 +147,7 @@ function PostPage() {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   fullWidth
+                  multiline
                   label="Post a Comment..."
                   variant="outlined"
                   sx={{ marginBottom: "16px" }}
