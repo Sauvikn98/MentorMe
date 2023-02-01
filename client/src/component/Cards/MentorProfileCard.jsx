@@ -19,18 +19,21 @@ function MentorProfileCard({ mentor }) {
   const { jwt_token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:5000/user/${mentor.id}`, {
-      headers: {
-        "x-auth-token": jwt_token,
-      },
-      method: "GET",
-    })
+    if(mentor._id){
+      
+      fetch(`http://127.0.0.1:5000/user/${mentor._id}`, {
+        headers: {
+          "x-auth-token": jwt_token,
+        },
+        method: "GET",
+      })
       .then((res) => res.json())
       .then((data) => {
         console.log({ data });
         setMentorData(data);
       });
-  }, []);
+    }
+    }, []);
   if (!mentorData) {
     return <div>Loading...</div>;
   }

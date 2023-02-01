@@ -10,6 +10,7 @@ const {
   createMentee,
   createMentor,
   loginUser,
+  getAllMentors,
 } = require("../controller/UserController");
 
 const {
@@ -28,9 +29,12 @@ UserRoutes.post("/user/login", loginUser);
 
 UserRoutes.get("/user/current", auth, getCurrentUser);
 
-UserRoutes.get("/user/:id", auth, getUserById);
+UserRoutes.get("/user/mentors/get", auth, getAllMentors);
 
 UserRoutes.get("/user/search/:name", auth, getUserByName);
+
+UserRoutes.get("/user/:id", auth, getUserById);
+
 
 // routes for user profile---
 

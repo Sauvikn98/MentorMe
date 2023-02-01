@@ -155,3 +155,16 @@ exports.getUserByName = async (req, res) => {
   const { name } = req.params;
   User.find({ name }).then((users) => res.status(200).send(users));
 };
+
+exports.getAllMentors = async (req, res)=> {
+  try {
+    console.log("getting")
+    const users = await User.find({ account_type: "mentor" }).select(
+      "-password -updatedAt -createdAt"
+    );
+    res.json(users);
+  } catch (err) {
+    console.log({err})
+    res.status(500).json({ error: "Server Error" });
+  }
+} 

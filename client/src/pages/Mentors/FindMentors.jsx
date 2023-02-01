@@ -1,11 +1,33 @@
 import { Box, Grid, TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import MentorProfileCard from "../../component/Cards/MentorProfileCard";
+import {useSelector} from 'react-redux'
+import Loading from "../../component/common/Loading";
 
 function FindMentors() {
     const [searchValue, setSearchValue] = useState("")
+    const [mentors, setMentors] = useState("")
+
+  const { user, jwt_token } = useSelector((state) => state.auth);
     const handleChange = (e)=> {
         setSearchValue(e.target.value)
+    }
+    useEffect(() => {
+      
+        fetch(`http://127.0.0.1:5000/user/mentors/get`, {
+          headers: {
+            "x-auth-token": jwt_token,
+          },
+          method: "GET",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log({ data });
+            setMentors(data);
+          });
+    }, []);
+    if (!user || !mentors) {
+      return <Loading/>
     }
   return (
     <Box>
@@ -23,11 +45,11 @@ function FindMentors() {
       />
       </Box>
       <Grid container spacing={{ xs: 2, md: 3 }}>
-        {/* {Array.from(Array(6)).map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <MentorProfileCard />
+        {mentors?.map((mentor) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={mentor._id}>
+            <MentorProfileCard mentor={mentor}/>
           </Grid>
-        ))} */}
+        ))}
       </Grid>
     </Box>
   );
