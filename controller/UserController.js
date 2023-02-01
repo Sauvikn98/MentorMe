@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.createMentor = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, bio } = req.body;
   console.log(req.body)
   console.log(email, password, name)
   try {
@@ -18,6 +18,7 @@ exports.createMentor = async (req, res) => {
       email,
       password,
       account_type: "mentor",
+      bio
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
@@ -47,7 +48,7 @@ exports.createMentor = async (req, res) => {
 };
 
 exports.createMentee = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, bio} = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -60,6 +61,7 @@ exports.createMentee = async (req, res) => {
       name,
       email,
       password,
+      bio,
       account_type: "mentee",
     });
     const salt = await bcrypt.genSalt(10);

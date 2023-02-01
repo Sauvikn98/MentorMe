@@ -17,6 +17,7 @@ const EmailAndPassword = ({ state, handleNext, handlePrev }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [bio, setBio] = useState('')
   
   
   const handleSignUp = ()=> {
@@ -24,9 +25,10 @@ const EmailAndPassword = ({ state, handleNext, handlePrev }) => {
     let userData = {
       name,
       email, 
-      password
+      password,
+      bio
     }
-    if(!email || !password || !name){
+    if(!email || !password || !name || !bio){
       return alert("All fields are required!")
     }
     if(state.account_type == "mentor"){
@@ -111,6 +113,22 @@ const EmailAndPassword = ({ state, handleNext, handlePrev }) => {
           name="password"
           value={password}
           onChange={(e)=> setPassword(e.target.value)}
+        />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={3} style={{ marginBottom: "16px" }}>
+        <Grid item xs={12}>
+        <TextField
+          label="Your Bio"
+          type="text"
+          variant='outlined'
+          color='primary'
+          size='small'
+          fullWidth={true}
+          name="bio"
+          value={bio}
+          onChange={(e)=> setBio(e.target.value)}
         />
         </Grid>
       </Grid>

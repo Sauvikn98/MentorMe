@@ -69,9 +69,9 @@ function MentorProfileCard({ mentor, id }) {
         }}
       >
         <Typography variant="h5">{mentorData?.name}</Typography>
-        {/* <Typography variant="body1" color="text.secondary">
-          Software Developer at Google
-        </Typography> */}
+        <Typography variant="body1" color="text.secondary">
+          {mentorData?.bio}
+        </Typography>
         <Typography variant="body1" color="text.secondary">
           Mentees: {mentorData?.approvedMentees?.length}
         </Typography>

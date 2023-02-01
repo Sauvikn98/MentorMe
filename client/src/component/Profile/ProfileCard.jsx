@@ -39,19 +39,22 @@ function ProfileCard() {
           <Typography variant="h5">
             {user?.name}
           </Typography>
+          <Typography variant="h6" color="text.secondary">
+            {user?.bio}
+          </Typography>
           {user.account_type == 'mentee' ? (
             <>
             <Typography variant="body1" color="text.secondary">
             My Mentors: {user?.approvedMentors?.length}
           </Typography>
-          <Typography>Role: Mentee</Typography>
+          <Typography variant="body1" color="text.secondary">Role: Mentee</Typography>
             </>
           ) : (
             <>
             <Typography variant="body1" color="text.secondary">
             My Mentees: {user?.approvedMentees?.length}
           </Typography>
-          <Typography>Role: Mentor</Typography>
+          <Typography variant="body1" color="text.secondary">Role: Mentor</Typography>
             </>
           )}
         </CardContent>

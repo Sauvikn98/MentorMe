@@ -79,7 +79,7 @@ function MenteeProfileCard({ mentee, pending=false }) {
       >
         <Typography variant="h5" onClick={handleNavigate} sx={{cursor:'pointer'}}>{menteeData?.name}</Typography>
         <Typography variant="body1" color="text.secondary">
-          Software Developer at Google
+          {menteeData?.bio}
         </Typography>
         <Typography variant="body1" color="text.secondary">
           Mentors: {menteeData?.approvedMentors?.length}
