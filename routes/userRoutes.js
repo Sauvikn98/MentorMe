@@ -10,6 +10,7 @@ const {
   createMentee,
   createMentor,
   loginUser,
+  getAllMentors,
 } = require("../controller/UserController");
 
 const {
@@ -28,9 +29,12 @@ UserRoutes.post("/user/login", loginUser);
 
 UserRoutes.get("/user/current", auth, getCurrentUser);
 
-UserRoutes.get("/user/:id", auth, getUserById);
+UserRoutes.get("/user/mentors/get", auth, getAllMentors);
 
 UserRoutes.get("/user/search/:name", auth, getUserByName);
+
+UserRoutes.get("/user/:id", auth, getUserById);
+
 
 // routes for user profile---
 
@@ -41,15 +45,14 @@ UserRoutes.post(
   addProfileImage
 );
 
-// TO BE DONE -
 
 UserRoutes.post("/user/profile/addEducation", auth, addEducation);
 
 UserRoutes.post("/user/profile/addExperience", auth, addExperience);
 
-UserRoutes.post("/user/profile/deleteEducation", auth, deleteEducation);
+UserRoutes.post("/user/profile/deleteEducation/:id", auth, deleteEducation);
 
-UserRoutes.post("/user/profile/deleteExperience", auth, deleteExperience);
+UserRoutes.post("/user/profile/deleteExperience/:id", auth, deleteExperience);
 
 // UserRoutes.patch("/user/:id", async (req, res) => {
 //   const updates = Object.keys(req.body);

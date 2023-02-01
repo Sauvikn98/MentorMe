@@ -12,43 +12,51 @@ import {
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { approveMentorship } from "../../redux/authSlice";
 
-function MentorProfileCard({ mentor, id }) {
+function MenteeProfileCard({ mentee, pending=false }) {
   const navigate = useNavigate();
-  const [mentorData, setMentorData] = useState(null);
+  const dispatch = useDispatch()
+  const [menteeData, setMenteeData] = useState(null);
   const { jwt_token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if(id){
-      
-      fetch(`http://127.0.0.1:5000/user/${id}`, {
-        headers: {
-          "x-auth-token": jwt_token,
-        },
-        method: "GET",
-      })
+    fetch(`http://127.0.0.1:5000/user/${mentee.id}`, {
+      headers: {
+        "x-auth-token": jwt_token,
+      },
+      method: "GET",
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log({ data });
-        setMentorData(data);
+        setMenteeData(data);
       });
+  }, []);
+  const handleApprove = ()=> {
+    const userData = {
+        menteeId: menteeData._id, 
+        jwt_token
     }
-    }, []);
-  if (!mentorData) {
+    dispatch(approveMentorship(userData))
+  }
+  if (!menteeData) {
     return <div>Loading...</div>;
   }
   const handleNavigate = () => {
-    navigate(`/profile/${id}`);
+    navigate(`/profile/${menteeData._id}`);
   };
   return (
-    <Card sx={{ cursor: "pointer" }} onClick={handleNavigate}>
+    <Card sx={{ }} >
       <Box
         sx={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           marginTop: "2rem",
+          cursor: "pointer" 
         }}
+        onClick={handleNavigate}
       >
         <Avatar
           sx={{
@@ -58,6 +66,7 @@ function MentorProfileCard({ mentor, id }) {
             fontSize: 48,
           }}
         >
+          
         </Avatar>
       </Box>
       <CardContent
@@ -68,17 +77,25 @@ function MentorProfileCard({ mentor, id }) {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h5">{mentorData?.name}</Typography>
+        <Typography variant="h5" onClick={handleNavigate} sx={{cursor:'pointer'}}>{menteeData?.name}</Typography>
         <Typography variant="body1" color="text.secondary">
-          {mentorData?.bio}
+          {menteeData?.bio}
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Mentees: {mentorData?.approvedMentees?.length}
+          Mentors: {menteeData?.approvedMentors?.length}
         </Typography>
-        {/* <Button>Send Request</Button> */}
+        {
+            pending ? (
+                <Box sx={{display:'flex', flexDirection:'row', alignItems:'center', justifyContent:'space-around'}}>
+                    <Button variant="outlined" size="small" sx={{marginRight:'8px'}} onClick={handleApprove}>Approve</Button>
+                    <Button variant="outlined" size="small">Reject</Button>
+                </Box>
+            ) : null
+        }
+        {/*  */}
       </CardContent>
     </Card>
   );
 }
 
-export default MentorProfileCard;
+export default MenteeProfileCard;

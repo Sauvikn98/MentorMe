@@ -3,8 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 exports.createMentor = async (req, res) => {
-  const { email, password, name } = req.body;
-
+  const { email, password, name, bio } = req.body;
+  console.log(req.body)
+  console.log(email, password, name)
   try {
     let user = await User.findOne({ email });
 
@@ -17,6 +18,7 @@ exports.createMentor = async (req, res) => {
       email,
       password,
       account_type: "mentor",
+      bio
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
@@ -40,13 +42,13 @@ exports.createMentor = async (req, res) => {
       }
     );
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
     res.status(500).json({ error: "Server Error" });
   }
 };
 
 exports.createMentee = async (req, res) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, bio} = req.body;
 
   try {
     let user = await User.findOne({ email });
@@ -59,6 +61,7 @@ exports.createMentee = async (req, res) => {
       name,
       email,
       password,
+      bio,
       account_type: "mentee",
     });
     const salt = await bcrypt.genSalt(10);
@@ -116,7 +119,7 @@ exports.loginUser = async (req, res) => {
       { expiresIn: "7 days" },
       (err, token) => {
         if (err) throw err;
-        return res.json({ token });
+        return res.json({ token, user });
       }
     );
   } catch (error) {
@@ -138,12 +141,14 @@ exports.getCurrentUser = async (req, res) => {
 
 exports.getUserById = async (req, res) => {
   const { id } = req.params;
+  console.log({id})
   try {
-    const user = await User.findById({ id }).select(
+    const user = await User.findById({ _id: id }).select(
       "-password -updatedAt -createdAt"
     );
     res.json(user);
   } catch (err) {
+    console.log({err})
     res.status(500).json({ error: "Server Error" });
   }
 };
@@ -152,3 +157,16 @@ exports.getUserByName = async (req, res) => {
   const { name } = req.params;
   User.find({ name }).then((users) => res.status(200).send(users));
 };
+
+exports.getAllMentors = async (req, res)=> {
+  try {
+    console.log("getting")
+    const users = await User.find({ account_type: "mentor" }).select(
+      "-password -updatedAt -createdAt"
+    );
+    res.json(users);
+  } catch (err) {
+    console.log({err})
+    res.status(500).json({ error: "Server Error" });
+  }
+} 

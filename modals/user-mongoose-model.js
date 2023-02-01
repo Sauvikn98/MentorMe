@@ -29,10 +29,9 @@ const userSchema = new mongoose.Schema(
       trim: true,
       minlength: 6,
     },
-    profileCompleted: {
-      type: Boolean,
-      default: false,
-      required: true,
+
+    bio: {
+      type: String
     },
     profileImage: {
       type: String,

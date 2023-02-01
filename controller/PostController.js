@@ -1,21 +1,87 @@
-const { Post } = require("../modals/mongoose-model");
+const { User, Post, MenteePost } = require("../modals/mongoose-model");
 
 exports.addPost = async (req, res) => {
-  const { title, text, jobPost } = req.body;
+  const { title, text } = req.body;
   try {
-    const newPost = await Post.create({
-      title,
-      text,
-      author: {
-        authorId: req.user.id,
-        authorName: req.user.name,
+    let newPost;
+    if(req.user.account_type == 'mentee'){
+      newPost = await MenteePost.create({
+        title,
+        text,
+        author: {
+          authorId: req.user.id,
+          authorName: req.user.name,
+        },
+        targetMentor: req.body.targetMentor,
+        post_type: "mentee_post"
+      });
+    } else {
+      newPost = await Post.create({
+        title,
+        text,
+        author: {
+          authorId: req.user.id,
+          authorName: req.user.name,
+        },
+        post_type: "mentor_post"
+      });
+    }
+    console.log(newPost)
+    const user = await User.findOneAndUpdate(
+      {
+        _id: req.user.id,
       },
-      jobPost,
-    });
+      {
+        $push: {
+          posts: {
+             id: newPost._id,
+             title: newPost.title
+          },
+        },
+      },
+      { new: true }
+    );
+    console.log(user)
     return res.status(200).json(newPost);
   } catch (error) {
     console.error(error.message);
     res.status(500).json({ error: "Server Error" });
+  }
+};
+
+
+exports.getPostsFromMentors = async (req, res) => {
+  try {
+    console.log("Hello")
+    const myMentors = await User.findById({ _id: req.user.id }).select(
+      "approvedMentors"
+    );
+    console.log(myMentors)
+    const mentorsIds = myMentors.approvedMentors.map(mentor=> mentor.id)
+    const post = await Post.find({ "author.authorId" : { $in : mentorsIds }}).sort({createdAt: -1})
+    if (!post) {
+      return res.status(404).json({ error: "No post found!" });
+    }
+    return res.json(post);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ errors: "Server Error" });
+  }
+};
+
+exports.getPostsFromMentees = async (req, res) => {
+  try {
+    console.log("Hello")
+    
+   
+    const post = await MenteePost.find({"targetMentor.id": req.user.id}).sort({createdAt: -1})
+    if (!post) {
+      return res.status(404).json({ error: "No post found!" });
+    }
+    return res.json(post);
+  } catch (err) {
+    console.log(err)
+    res.status(500).json({ errors: "Server Error" });
   }
 };
 
@@ -33,6 +99,21 @@ exports.addComment = async (req, res) => {
       };
       post.comments.push(newComment);
       await post.save();
+      const user = await User.findOneAndUpdate(
+        {
+          _id: req.user.id,
+        },
+        {
+          $push: {
+            comments: {
+               id: req.params.postId,
+               title: newComment.text
+            },
+          },
+        },
+        { new: true }
+      );
+      console.log(user)
       return res.status(200).json(post);
     }
   } catch (error) {
@@ -100,6 +181,9 @@ exports.getPostByID = async (req, res) => {
     }
     return res.json(post);
   } catch (err) {
-    res.status(500).json({ errors: [{ msg: "Server Error" }] });
+    res.status(500).json({ errors: "Server Error" });
   }
 };
+
+
+

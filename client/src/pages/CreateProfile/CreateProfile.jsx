@@ -13,53 +13,19 @@ import EmailAndPassword from "../../component/Steps/EmailAndPassword";
 
 class CreateProfile extends Component {
   state = {
-    data: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      password: "",
-      
-      nickName: "",
-      familyName: "",
-      gender: "",
-      phone: "",
-      address: "",
-
-      qualificationDegree: "",
-      collegeName: "",
-      yearOfPassing: "",
-      branch: "",
-
-      skill: "",
-      workExperence: "",
-      currentJob: "",
-      jobLocation: "",
-    },
-    errors: {},
     steps: [
-      { label: "Email and Password" },
-      { label: "Personal Bio" },
+      { label: "Create Account" },
       { label: "Educational" },
       { label: "Professional" },
     ],
     stepCount: 0,
+    account_type: "mentor"
   };
   render() {
 
     const handleSubmit = (e) => {
       e.preventDefault();
       console.log("form submitted");
-    };
-
-    const handleOnChange = ({ target }) => {
-      const { data, errors } = this.state;
-
-      target.value.length <= 3
-        ? (errors[target.name] = `${target.name} must have at least 4 letter`)
-        : (errors[target.name] = "");
-
-      data[target.name] = target.value;
-      this.setState({ data, errors });
     };
 
     const handleNextStep = () => {
@@ -73,12 +39,18 @@ class CreateProfile extends Component {
       stepCount = stepCount - 1;
       this.setState({ stepCount });
     };
+    const handleAccountType = (newData)=> {
+      let {account_type} = this.state;
+      console.log({newData})
+      this.setState({account_type: newData})
+    }
 
     const getStepContent = (step) => {
       switch (step) {
         case 0:
           return (
             <CreateAccount
+            handleAccountType={handleAccountType}
             handleNext={handleNextStep}
           />
           );
@@ -86,46 +58,31 @@ class CreateProfile extends Component {
           return (
             <EmailAndPassword
             state={this.state}
-            handleChange={handleOnChange}
             handleNext = {handleNextStep}
             handlePrev={handleBackStep}
             />
           );
         case 2:
           return (
-            <PersonalInfo
-            state={this.state}
-            handleChange={handleOnChange}
-            handleNext = {handleNextStep}
-            handlePrev={handleBackStep}
-            />
-          );
-        case 3:
-          return (
             <EducationalInfo
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
             />
           );
-        case 4:
+        case 3:
           return (
             <ProfessionalInfo
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
               handlePrev={handleBackStep}
               handleSubmit={handleSubmit}
             />
           );
-        case 5:
-          return <SubmittedData data={this.state.data} state={this.state} />;
         default:
           return (
             <CreateAccount
               state={this.state}
-              handleChange={handleOnChange}
               handleNext={handleNextStep}
             />
           );

@@ -11,32 +11,33 @@ import FavoriteIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import ShareIcon from '@mui/icons-material/Share';
 import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
 
+import { Navigate, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-
-export default function PostCard() {
+export default function PostCard({post}) {
   
+  const navigate = useNavigate()
+  const handleNavigate = ()=> {
+    navigate(`/posts/${post._id}`)
+  }
   return (
-    <Card sx={{ width: '35vw', marginBottom:'2rem' }}>
+    <Card sx={{ width: '35vw', marginBottom:'2rem', cursor:'pointer' }} onClick={handleNavigate}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: "primary.main" }} aria-label="recipe">
-            R
+            
           </Avatar>
         }
-        title="John Nath"
-        subheader="Asked by: Sauvik Nath"
+        title={post.author.authorName}
+        subheader={`Posted on: ${new Date(post.createdAt).toDateString()}`}
       />
       
       <CardContent>
         <Typography variant="h5" sx={{marginBottom: '0.5rem'}}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests?
+          {post.title}
         </Typography>
         <Typography variant="body1" >
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests.
+          {post.text}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
